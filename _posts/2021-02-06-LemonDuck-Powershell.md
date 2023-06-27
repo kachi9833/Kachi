@@ -259,6 +259,15 @@ Now you have full visibility of the Powershell activities located at:
 2. Script block: `%SystemRoot%\System32\Winevt\Logs\Microsoft-Windows-PowerShell%4Operational.evtx`
 3. Transcript: `%HOMEPATH%\Desktop\PS_Transcripts`
 
+# Automate the deobfuscation!
+I mentioned a tool named `PSUnveil` in my Twitter where this tool can automate all this decoding process in just 3 seconds!
 
+![image](https://github.com/fareedfauzi/fareedfauzi.github.io/assets/56353946/ed29d9f5-8691-4a89-bd25-d9d1c3b037b1)
+
+PSUnveil is a tool you can use to analyze obfuscated PowerShell scripts. This tool will ease our job and save us a lot of time.
+
+Tutorial by author's tool: https://www.kahusecurity.com/posts/introducing_psunveil.html
+
+Link download: https://www.kahusecurity.com/tools.html
 
 
