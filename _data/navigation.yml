@@ -69,4 +69,4 @@ header:
       en-CA   : *EN
       en-AU   : *EN
       # @end locale config
-    url: /gitbook.html
+    url: https://fareedfauzi.gitbook.io/
