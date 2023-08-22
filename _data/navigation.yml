@@ -1,7 +1,7 @@
 header:
   - titles:
       # @start locale config
-      en      : &EN       Archive
+      en      : &EN       Archive 🗃️
       en-GB   : *EN
       en-US   : *EN
       en-CA   : *EN
@@ -27,7 +27,7 @@ header:
 
   - titles:
       # @start locale config
-      en      : &EN       About
+      en      : &EN       About 👨‍💻
       en-GB   : *EN
       en-US   : *EN
       en-CA   : *EN
@@ -53,7 +53,7 @@ header:
 
   - titles:
       # @start locale config
-      en      : &EN       BuyMeACoffee
+      en      : &EN       BuyMeACoffee ☕
       en-GB   : *EN
       en-US   : *EN
       en-CA   : *EN
