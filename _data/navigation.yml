@@ -63,7 +63,7 @@ header:
 
  - titles:
       # @start locale config
-      en      : &EN       GitBook ☕
+      en      : &EN       GitBook 📘
       en-GB   : *EN
       en-US   : *EN
       en-CA   : *EN
