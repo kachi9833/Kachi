@@ -60,3 +60,13 @@ header:
       en-AU   : *EN
       # @end locale config
     url: https://www.buymeacoffee.com/fareedfauzi
+
+ - titles:
+      # @start locale config
+      en      : &EN       GitBook ☕
+      en-GB   : *EN
+      en-US   : *EN
+      en-CA   : *EN
+      en-AU   : *EN
+      # @end locale config
+    url: /gitbook.html
