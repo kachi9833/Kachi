@@ -8,6 +8,7 @@ titles:
   en-CA   : *EN
   en-AU   : *EN
   # @end locale config
+key: page-about
 ---
 
 I have compiled a series of GitBook notes encompassing various aspects of cybersecurity, including knowledge, tips, and content. These notes delve into topics such as forensics, Capture The Flag (CTF), certification tips, and much more. Here is a list of included resources: 
