@@ -28,6 +28,6 @@ key: page-about
 
 Hi, good day everyone. Just another so called "security guy" hosting cyber security related blog. He working at a local cyber security company doing digital forensics, malware analysis, malware research and reverse engineering stuff.
 
-His interested mainly in reverse code engineering and analysis, malware development, CTF, HTB stuff and exploit development and works on them for fun, research, and work.
+His interested mainly in reverse code engineering and analysis, malware research and development, CTF, digital forensics, threat intelligence and works on them for fun, research, and work.
 
 The aim of this personal blog is for research, education and note purpose focusly on malware analysis and reverse code engineering. Anything posted in his blog is his own stuff and is not affiliated with any company that he's working for.
