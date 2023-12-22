@@ -7,6 +7,7 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 
 # Tools
 ## Acquire artifact's Tools
+
 | Tools | Description |
 | --- | --- |
 | FTK Imager | Disk Imaging |
@@ -19,6 +20,7 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 | EDD | Check disk encryption |
 
 ## Forensic analysis tools
+
 | Tools | Description |
 | --- | --- |
 | Arsenal Image Mounter | Mounting image |
@@ -110,6 +112,7 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
     | 19 | Third party antivirus log |
 
 ### Triage artifacts parsing and analysis
+
 | To do | Tools or Commands |
 | --- | --- |
 | MFT | `MFTECmd.exe -f "C:\Temp\SomeMFT" --csv "c:\temp\out" --csvf MyOutputFile.csv` |
