@@ -215,6 +215,8 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 | 11 | Microsoft-Windows-Sysmon/Operational | FileCreate |
 | 12 | Microsoft-Windows-Sysmon/Operational | RegistryEvent (Object create and delete) |
 
+Event ID KB: https://system32.eventsentry.com/ and https://www.myeventlog.com/search/browse
+
 ## Triage artifacts parsing and analysis
 
 ### File Records
