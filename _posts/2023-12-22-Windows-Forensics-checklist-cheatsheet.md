@@ -251,7 +251,7 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 | Win10 Timeline | `C:\%USERPROFILE%\AppData\Local\ConnectedDevicesPlatform\L.Administrator\ActivitiesCache.db` | `WxTCmd.exe -f "ActivitiesCache.db" --csv D:\Hands-On` |
 | SRUM | `C:\Windows\System32\sru\SRUDB.dat` | srum-dump |
 | BAM / DAM | `SYSTEM\ControlSet001\Services\bam\State\UserSettings\` | Registry Explorer |
-| Prefetch | `C:\Windows\prefetch` | `PECmd.exe -d D:\Windows\prefetch --csv "D:\Hands-On" --csvf prefetch.csv` |
+| Prefetch | `C:\Windows\prefetch` | `PECmd.exe -d D:\Windows\prefetch --csv "D:\Hands-On" --csvf prefetch.csv` or WinPrefetch |
 | Task Bar Feature Usage | `NTUSER\Software\Microsoft\Windows\CurrentVersion\Explorer\FeatureUsage` | Registry Explorer |
 | Jumplist | `C:\%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations` | Jumplist Explorer |
 | Last Visited MRU | `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU` | RegRipper |
@@ -280,12 +280,12 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 
 | Artifact | Location | Tools or Commands |
 | --- | --- | --- |
-| Recycle Bin | `C:\$Recycle.Bin` | Autopsy |
-| Thumbcache | `%USERPROFILE%\AppData\Local\Microsoft\Windows\Explorer` | Autopsy |
+| Recycle Bin | `C:\$Recycle.Bin` | Recbin |
+| Thumbcache | `%USERPROFILE%\AppData\Local\Microsoft\Windows\Explorer` | Thumbcache Viewer |
 | User Typed Paths | `NTUSER\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths` | Registry Explorer |
 | Search – WordWheelQuery | `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery` | Registry Explorer |
 | Internet Explorer file:/// | `%USERPROFILE%\AppData\Local\Microsoft\Windows\WebCache\WebCacheV*.dat` | Text Editor |
-| Windows Search Database | `C:\ProgramData\Microsoft\Search\Data\Applications\Windows\Windows.edb` | Text Editor |
+| Windows Search Database | `C:\ProgramData\Microsoft\Search\Data\Applications\Windows\Windows.edb` | LostPassword's Search Index Examiner |
 
 
 ### Browser activity
@@ -357,5 +357,5 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 cd folder_containing_all_registries
 for /r %i in (*) do (C:\RegRipper3.0\rip.exe -r %i -a > %i.txt)
 ```
-
 - USB usage also can be investigate using "USB Detective Community Edition"
+- Nirsoft software might have a good tool for viewing your artifacts
