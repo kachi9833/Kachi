@@ -1,9 +1,9 @@
 ---
-title:  "Checklist: Windows Forensics"
+title:  "Checklist and Cheatsheet: Windows Forensics Analysis"
 tags: DFIR
 ---
 
-During a Windows Forensics engagement, I occasionally find myself forgetting essential tasks or unintentionally skipping analyzing importants artifacts. Therefore, this checklist (along with cheatsheet) could help myself and ensure that I adhere to a systematic workflow when conducting Windows Forensics.
+During a Windows Forensics engagement, I occasionally find myself forgetting essential tasks or unintentionally skipping analyzing importants artifacts. Therefore, this checklist (along with cheatsheet) could help myself (or readers) and ensure that I adhere to a systematic workflow when conducting Windows Forensics.
 
 # Tools
 ## Acquire artifact's Tools
@@ -222,7 +222,12 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 | Artifact | Location | Tools or Commands |
 | --- | --- | --- |
 | MFT | `C:\` | `MFTECmd.exe -f "C:\Temp\SomeMFT" --csv "c:\temp\out" --csvf MyOutputFile.csv` or NTFS Log Tracker |
-| UsnJrnl | `C:\$Extend` | `MFTECmd.exe -f "C:\Temp\SomeJ" --csv "c:\temp\out" --csvf MyOutputFile.csv` or NTFS Log Tracker  |
+| UsnJrnl | `C:\$Extend` | `MFTECmd.exe -f "C:\Temp\SomeJ" --csv "c:\temp\out" --csvf MyOutputFile.csv` or NTFS Log Tracker |
+
+Follow Windows Time Rules below:
+
+![image](https://github.com/fareedfauzi/fareedfauzi.github.io/assets/56353946/70270442-6316-420a-b183-971624a141f9)
+Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 
 ### System and user Information (via Registry)
 
