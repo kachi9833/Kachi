@@ -73,47 +73,147 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 5. View Timeline Analysis in Autopsy
 6. Search any interesting keywords
 
-### Windows event logs analysis
+## Windows event logs analysis
 1. Located at `C:\Windows\System32\winevt\Logs`
-2. Perform event log scanner:
-
-    | Tools | Commands |
-    | --- | --- |
-    | Hayabusa | `hayabusa.exe update-rules` and `hayabusa.exe csv-timeline -d ..\Logs -p verbose -o results.csv` |
-    | DeepBlueCLI | `.\DeepBlue.ps1 -log security` |
-    | Chainsaw | `chainsaw.exe hunt evtx_logs/ -s sigma/ --mapping mappings/sigma-event-logs-all.yml -r rules/ --csv --output results` |
-    | Zircolite | `zircolite_win10.exe --evtx ../Logs` |
-    | APT-Hunter | `APT-Hunter.exe -p ..\Logs -o Foldername -allreport` |
-    | EVTXHussar | `EvtxHussar.exe C:\evtx_compromised_machine -o C:\evtxhussar_results` |
-    | Rhaegal | `rhaegal.exe -lp ..\Logs -rp rules -n 100 -o output.csv` |
-
+2. Perform event log scanner
 3. Manually view in Event Log Explorer
 
-    | Interesting logs | Context |
-    | --- | --- |
-    | Security.evtx | Security-related events |
-    | System.evtx | Tracks system component events |
-    | Application.evtx | Logs application-specific events |
-    | Microsoft-Windows-Sysmon/Operational.evtx | Enhanced process, network, and file monitoring |
-    | Microsoft-Windows-PowerShell/4Operational.evtx | Records PowerShell activity |
-    | Microsoft-Windows-Windows Defender/Operational.evtx | Logs Windows Defender events |
-    | Microsoft-Windows-WMI-Activity/4Operational.evtx | Logs WMI events  |
-    | Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational.evtx | Logs RDP session events |
-    | Microsoft-Windows-TerminalServices-LocalSessionManager/Operational.evtx | Logs RDP session events |
-    | Microsoft-Windows-TaskScheduler/Operational.evtx | Logs Task Scheduler events |
-    | Microsoft-Windows-DNS-Server%4Operational.evtx | Active Directory Server Logs |
-    | Directory Service.evtx | Active Directory Server Logs |
-    | File Replication Service.evtx | Active Directory Server Logs |
-    | %SystemDrive%\inetpub\logs\LogFiles | IIS log |
-    | %SystemRoot%\System32\LogFiles\HTTPERR | IIS log  |
-    | %ProgramFiles%\Microsoft\Exchange Server\V15\Logging | Exchange log |
-    | Panther*.log | Windows setup details |
-    | RPC Client Access*.log | Exchange Server, if applicable |
-    | Third party antivirus log | AV logs |
+### Interesting log sources
 
-### Important Event IDs
-TODO
+| Log sources | Context |
+| --- | --- |
+| Security.evtx | Security-related events |
+| System.evtx | Tracks system component events |
+| Application.evtx | Logs application-specific events |
+| Microsoft-Windows-Sysmon/Operational.evtx | Enhanced process, network, and file monitoring |
+| Microsoft-Windows-PowerShell/4Operational.evtx | Records PowerShell activity |
+| Microsoft-Windows-Windows Defender/Operational.evtx | Logs Windows Defender events |
+| Microsoft-Windows-WMI-Activity/4Operational.evtx | Logs WMI events  |
+| Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational.evtx | Logs RDP session events |
+| Microsoft-Windows-TerminalServices-LocalSessionManager/Operational.evtx | Logs RDP session events |
+| Microsoft-Windows-TaskScheduler/Operational.evtx | Logs Task Scheduler events |
+| Microsoft-Windows-DNS-Server%4Operational.evtx | Active Directory Server Logs |
+| Directory Service.evtx | Active Directory Server Logs |
+| File Replication Service.evtx | Active Directory Server Logs |
+| %SystemDrive%\inetpub\logs\LogFiles | IIS log |
+| %SystemRoot%\System32\LogFiles\HTTPERR | IIS log  |
+| %ProgramFiles%\Microsoft\Exchange Server\V15\Logging | Exchange log |
+| Panther*.log | Windows setup details |
+| RPC Client Access*.log | Exchange Server, if applicable |
+| Third party antivirus log | AV logs |
 
+### Event log scanner
+
+| Tools | Commands |
+| --- | --- |
+| Hayabusa | `hayabusa.exe update-rules` and `hayabusa.exe csv-timeline -d ..\Logs -p verbose -o results.csv` |
+| DeepBlueCLI | `.\DeepBlue.ps1 -log security` |
+| Chainsaw | `chainsaw.exe hunt evtx_logs/ -s sigma/ --mapping mappings/sigma-event-logs-all.yml -r rules/ --csv --output results` |
+| Zircolite | `zircolite_win10.exe --evtx ../Logs` |
+| APT-Hunter | `APT-Hunter.exe -p ..\Logs -o Foldername -allreport` |
+| EVTXHussar | `EvtxHussar.exe C:\evtx_compromised_machine -o C:\evtxhussar_results` |
+| Rhaegal | `rhaegal.exe -lp ..\Logs -rp rules -n 100 -o output.csv` |
+    
+
+### Important Security Event IDs
+
+| IDs | Event log | Context |
+| --- | --- | --- |
+| 4624 | Security | Successful Login |
+| 4625 | Security | Failed Login |
+| 4634/4647 | Security| User Initiated Logoff/An Account was Logged Off |
+| 4648 | Security | A Logon was Attempted Using Explicit Credentials |
+| 4662 | Security | An Operation was Performed on an Object |
+| 4663 | Security | An Attempt was Made to Access an Object |
+| 4672 | Security | Special Logon |
+| 4688 | Security | Process Creation |
+| 4689 | Security | Process Termination |
+| 4697 | Security | Service Installed |
+| 4698/4702/4700 | Security | Scheduled Task Created or Updated |
+| 4699 | Security | Scheduled Task Deleted |
+| 4701 | Security | Scheduled Task Enabled |
+| 4702 | Security | Service Removed |
+| 4720 | Security | A User Account was Created |
+| 4722 | Security | A User Account was Enabled |
+| 4723 | Security | An Attempt was Made to Change an Account's Password |
+| 4724 | Security | An Attempt was Made to Reset an Account's Password |
+| 4725 | Security | A User Account was Disabled |
+| 4726 | Security | A User Account was Deleted |
+| 4728 | Security | A Member was Added to a Security-Enabled Global Group |
+| 4729 | Security | A Member was Removed from a Security-Enabled Global Group |
+| 4732 | Security | A Security-Enabled Local Group was Created |
+| 4733 | Security | A Security-Enabled Local Group was Changed |
+| 4734 | Security | A Security-Enabled Local Group was Deleted |
+| 4741 | Security | A Computer Account was Created |
+| 4742 | Security | A Computer Account was Changed |
+| 4768 | Security | Kerberos Authentication Service Ticket Request |
+| 4769 | Security | Kerberos Service Ticket Renewal |
+| 4776 | Security | Credential Validation |
+| 4778 | Security | Session Reconnected |
+| 4779 | Security | Session Disconnected by User |
+| 4794 | Security | An Attempt was Made to Set the Directory Services Restore Mode Administrator Password |
+| 5136 | Security | Directory Service Changes |
+| 5140 | Security | A Network Share Object was Accessed |
+| 5141 | Security | A Directory Service Object was Deleted |
+| 5145 | Security | Network Share Object was Checked |
+| 5376 | Security | Credential Manager Credentials Submitted |
+| 5377 | Security | Credential Manager Credentials Auto-Logon |
+| 1102 | Security | Event Log Cleared |
+| 1100 | Security | Event Log Service Shutdown |
+
+### Logon type corresponding to Succesfull (4624) or Failed logins (4625)
+
+| Logon Type | Explanation |
+|---|---|
+| 2 | Logon via console |
+| 3 | Network Logon. A user or computer logged on to this computer from the network |
+| 4 | Batch Logon |
+| 5 | Windows Service Logon  |
+| 7 | Credentials used to unlock screen  |
+| 8 | Network logon sending credentials (cleartext)    |
+| 9 | Different credentials used than logon user |
+| 10 | Remote Interactive logon (RDP)  |
+| 11 | Cached credentials used to logon|
+| 12 | Cached remote interactive |
+| 13 | Cached Unlock (Similar to logon type 7)  |
+
+### Other's log important Event IDs
+
+| IDs | Event log | Context |
+| --- | --- | --- |
+| 7045 | System | Service installed |
+| 7035 | System | Service Control Manager |
+| 7036 | System | Service State Change |
+| 7001 | System | Service Start Failed |
+| 1001 | System | BSOD |
+| 6005 | System | Start-up time of the machine	|
+| 6006 | System | Shutdown time of the machine |
+| 59 | MicrosoftWindows Bits Client/operational | Bits Jobs |
+| 2004 | Microsoft-Windows-Windows Firewall with Advanced Security | Rule has been added to the Window Firewall exception list |
+| 2006 | Microsoft-Windows-Windows Firewall with Advanced Security | Deleted firewall rule |
+| 1116  | Microsoft Windows Windows Defender/Operational | Defender Antivirus has detected malware |
+| 1117 | Microsoft Windows Windows Defender/Operational | Action taken |
+| 1006 | Microsoft Windows Windows Defender/Operational | Scan result |
+| 4103 | Microsoft Windows PowerShell/Operational | Module logging |
+| 4104 | Microsoft Windows PowerShell/Operational | Script Block Logging |
+| 4105 | Microsoft Windows PowerShell/Operational | Transcription Logging |
+| 4688 | Microsoft Windows PowerShell/Operational | Process Creation (including PowerShell processes) |
+| 400 | Windows PowerShell | Start of a PowerShell activity, whether local or remote.  |
+| 403 | Windows PowerShell | Completion of a PowerShell activity |
+| 800 | Windows PowerShell | Pipeline execution |
+| 1000 | Application | Application Error/crash |
+| 1001 | Application | Application Error reporting |
+| 1024 | Application | Software Installation |
+| 1040 | Application | User Initiated Software Installation |
+| 1 | Microsoft-Windows-Sysmon/Operational | Process Creation |
+| 2 | Microsoft-Windows-Sysmon/Operational | A process changed a file creation time |
+| 3 | Microsoft-Windows-Sysmon/Operational | Network connection detected |
+| 6 | Microsoft-Windows-Sysmon/Operational | Driver Loaded |
+| 7 | Microsoft-Windows-Sysmon/Operational | Image Loaded |
+| 8 | Microsoft-Windows-Sysmon/Operational | CreateRemoteThread |
+| 10 | Microsoft-Windows-Sysmon/Operational | ProcessAccess |
+| 11 | Microsoft-Windows-Sysmon/Operational | FileCreate |
+| 12 | Microsoft-Windows-Sysmon/Operational | RegistryEvent (Object create and delete) |
 
 ## Triage artifacts parsing and analysis
 
@@ -121,15 +221,15 @@ TODO
 
 | Artifact | Location | Tools or Commands |
 | --- | --- | --- |
-| MFT | `C:\` | `MFTECmd.exe -f "C:\Temp\SomeMFT" --csv "c:\temp\out" --csvf MyOutputFile.csv` |
-| UsnJrnl | `C:\$Extend` | `MFTECmd.exe -f "C:\Temp\SomeJ" --csv "c:\temp\out" --csvf MyOutputFile.csv` |
+| MFT | `C:\` | `MFTECmd.exe -f "C:\Temp\SomeMFT" --csv "c:\temp\out" --csvf MyOutputFile.csv` or NTFS Log Tracker |
+| UsnJrnl | `C:\$Extend` | `MFTECmd.exe -f "C:\Temp\SomeJ" --csv "c:\temp\out" --csvf MyOutputFile.csv` or NTFS Log Tracker  |
 
-### System and user Information
+### System and user Information (via Registry)
 
 | Artifact | Location | Tools or Commands |
 | --- | --- | --- |
 | Operating System Version | `SOFTWARE\Microsoft\Windows NT\CurrentVersion` | Registry Explorer |
-| System Boot & Autostart Programs | Too many | Registry Explorer |
+| System Boot & Autostart Programs | Run registries | Registry Explorer |
 | Computer Name | `SYSTEM\CurrentControlSet\Control\ComputerName\ComputerName` | Registry Explorer |
 | System Last Shutdown Time | `SYSTEM\CurrentControlSet\Control\Windows` | Registry Explorer |
 | Cloud Account Details | `SAM\Domains\Account\Users\<RID>\InternetUserName` | Registry Explorer |
@@ -213,6 +313,7 @@ TODO
 
 
 ### AntiVirus logs
+
 | Artifact | Location |
 | --- | --- |
 | Avast | `C:\ProgramData\Avast Software\` |
@@ -239,11 +340,20 @@ TODO
 | pagefile.sys | `C:\` | strings |
 | Unalloc file | - | Autopsy |
 | Anydesk | `C:\Users\%user%\AppData\Roaming\AnyDesk\*` or `C:\ProgramData\AnyDesk\*` | Autopsy |
+| WMI persistence | `C:\WINDOWS\system32\wbem\Repository\OBJECTS.DATA` | WMI_Forensics |
+| WMI persistence | `C:\WINDOWS\system32\wbem\Repository\FS\OBJECTS.DATA` | WMI_Forensics |
+| RDP Cache | `C:\%USERPROFILE%\AppData/Local/Microsoft/Terminal Server Client/Cache` | BMC-Tools |
+|  |  |  |
+|  |  |  |
+|  |  |  |
+
 
 ## Other notes
 
-Regripper
+- Command to parse all registry in a folder using Regripper
 ```
 cd folder_containing_all_registries
 for /r %i in (*) do (C:\RegRipper3.0\rip.exe -r %i -a > %i.txt)
 ```
+
+- USB usage also can be investigate using "USB Detective Community Edition"
