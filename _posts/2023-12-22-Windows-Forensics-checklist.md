@@ -343,9 +343,6 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 | WMI persistence | `C:\WINDOWS\system32\wbem\Repository\OBJECTS.DATA` | WMI_Forensics |
 | WMI persistence | `C:\WINDOWS\system32\wbem\Repository\FS\OBJECTS.DATA` | WMI_Forensics |
 | RDP Cache | `C:\%USERPROFILE%\AppData/Local/Microsoft/Terminal Server Client/Cache` | BMC-Tools |
-|  |  |  |
-|  |  |  |
-|  |  |  |
 
 
 ## Other notes
