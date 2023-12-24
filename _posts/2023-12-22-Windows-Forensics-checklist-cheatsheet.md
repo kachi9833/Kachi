@@ -42,13 +42,23 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 1. Check disk encryption using EDD
 2. Perform disk imaging using FTK Imager
 3. Run live analysis collection script such as Inquisitor
-4. Perform memory dump activity
-5. Execute RedLine script to perform endpoint analysis
-6. Save all files in the external harddisk
+4. Or use Kansa Framework to collect live forensic analysis result
+5. Perform memory dump activity
+6. Execute RedLine script to perform endpoint analysis
+7. Save all files in the external harddisk
 
 # Analysis
+First, create a spreadsheet that will be the main documentation of your findings especially for Timeline. Include few relavant aspects in the spreadsheet such as:
+1. Artifact type
+2. Findings
+3. Location of artifact
+4. Created
+5. Accessed
+6. Modified
+7. Notes / Payload
+
 ## Live Forensics
-1. Check all the results of the script collection
+1. Check all the results of the script collection (Inquisitor / Kansa / FastIR)
 
 ## Memory analysis
 1. Tool used: Volatility, MemProcFS, MemProcFS-Analyzer
