@@ -329,7 +329,7 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 | Bitdefender | `C:\Program Files*\Bitdefender*\` | 
 | ESET | `C:\ProgramData\ESET\ESET NOD32 Antivirus\Logs\` | 
 | F-Secure | `C:\ProgramData\F-Secure\Log\` or `C:\Users\%user%\AppData\Local\F-Secure\Log\`   | 
-| McAfee |` C:\ProgramData\McAfee\*`  | 
+| McAfee |`C:\ProgramData\McAfee\*`  | 
 | Sophos | `C:\ProgramData\Sophos\Sophos *\Logs\` | 
 | Trend Micro | `C:\ProgramData\Trend Micro\` or `C:\Program Files*\Trend Micro\` |
 | Symantec | `C:\ProgramData\Symantec\` or `C:\Users\%user%\AppData\Local\Symantec\` |
@@ -339,7 +339,7 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 
 | Artifact | Location | Tools or Commands |
 | --- | --- | --- |
-| Task Scheduler | `SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks` | Registry Explorer |
+| Task Scheduler | `SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks` or `\Windows\Tasks` or `Windows\System32\Tasks` | Registry Explorer |
 | Startup folder | `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup` | Autopsy |
 | Startup folder user | `C:\%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup` | Autopsy |
 | Shadow copy | - | Shadow Explorer |
