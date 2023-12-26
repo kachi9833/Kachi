@@ -381,4 +381,4 @@ for /r %i in (*) do (C:\RegRipper3.0\rip.exe -r %i -a > %i.txt)
 - USB usage also can be investigate using "USB Detective Community Edition"
 - Nirsoft software might have a good tool for viewing your artifacts
 - Remote administration software: https://ruler-project.github.io/ruler-project/RULER/remote/ and https://docs.google.com/spreadsheets/d/1G_pJ1H2yJeoLUnki6kibujUJ9445M_2hRTEm3kUCf0M
-- Reghunter command on the live system: `reg_hunter --all -z`
+- Reghunter command on the live system: `reg_hunter --all -z --outfile reg_hunter_result.txt`
