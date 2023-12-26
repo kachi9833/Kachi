@@ -28,7 +28,7 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 | KAPE | Triage artifact |
 | Eric Zimmerman tools | Artifact parser and viewer |
 | Regripper | Registry parser |
-| Volatility / MemProcFS | Memory analysis tools |
+| Volatility Workbench / MemProcFS / MemProcFS-Analyzer | Memory analysis tools |
 | Event log explorer | Event log viewer |
 | Other open/close source tools | - |
 
@@ -67,6 +67,8 @@ First, create a spreadsheet that will be the main documentation of your findings
 4. Check injected process, dll injection (malfind, dlllist)
 5. Dump malicious process (dumpfiles --pid PID)
 6. Volatilit3 command: `python3 vol.py -f <memdump> <plugin name>`
+7. MemProcFS command: `memprocfs.exe -device D:\mem.raw -forensic 1`
+8. MemProcFS-Analyzer: `.\MemProcFS-Analyzer.ps1`
 
 ## Disk analysis
 ### Mount image
