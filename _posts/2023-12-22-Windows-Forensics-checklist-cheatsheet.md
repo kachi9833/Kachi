@@ -74,7 +74,7 @@ First, create a spreadsheet that will be the main documentation of your findings
 
 ## Disk analysis
 ### Mount image
-1. Perform KAPE execution on the mounted drive using "KAPE triage" module to extract important artifacts
+1. Perform KAPE execution on the mounted drive using "KAPE triage" module to extract important artifacts.
 2. Run malware scanner on the mounted drive (Loki scanner, THOR scanner, AV scanner, Densityscout)
 3. Perform data recovery on the mounted drive using Photorec
 4. Check any shadow copy, view it in Shadow Explorer
