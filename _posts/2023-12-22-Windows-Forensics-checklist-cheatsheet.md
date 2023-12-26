@@ -30,6 +30,7 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 | Regripper | Registry parser |
 | Volatility Workbench / MemProcFS / MemProcFS-Analyzer | Memory analysis tools |
 | Event log explorer | Event log viewer |
+| Reg_hunter | Hunt for malicious registry in live forensics |
 | Other open/close source tools | - |
 
 ## OS / Linux Distros
@@ -41,11 +42,12 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 # Acquire artifacts
 1. Check disk encryption using EDD
 2. Perform disk imaging using FTK Imager
-3. Run live analysis collection script such as Inquisitor
-4. Or use Kansa Framework to collect live forensic analysis result
+3. Run live analysis collection script such as Inquisitor (Optional)
+4. Or use Kansa Framework to collect live forensic analysis result (Optional)
 5. Perform memory dump activity
-6. Execute RedLine script to perform endpoint analysis
-7. Save all files in the external harddisk
+6. Execute RedLine script to perform endpoint analysis (Optional)
+7. Run Reg_hunter in the live system (Optional)
+8. Save all files in the external harddisk
 
 # Analysis
 First, create a spreadsheet that will be the main documentation of your findings especially for Timeline. Include few relavant aspects in the spreadsheet such as:
@@ -229,6 +231,9 @@ First, create a spreadsheet that will be the main documentation of your findings
 
 Event ID KB: https://system32.eventsentry.com/ and https://www.myeventlog.com/search/browse
 
+### Detecting Lateral movement via Event log
+Refer: https://jpcertcc.github.io/ToolAnalysisResultSheet/#
+
 ## Triage artifacts parsing and analysis
 
 ### File Records
@@ -347,6 +352,8 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 | Symantec | `C:\ProgramData\Symantec\` or `C:\Users\%user%\AppData\Local\Symantec\` |
 | WinDefender | `C:\ProgramData\Microsoft\Windows Defender\*` or `C:\ProgramData\Microsoft\Microsoft AntiMalware\Support\` or MpCmdRun.log |
 
+Another good reference: https://ruler-project.github.io/ruler-project/RULER/av/
+
 ## Other Artifacts
 
 | Artifact | Location | Tools or Commands |
@@ -373,3 +380,5 @@ for /r %i in (*) do (C:\RegRipper3.0\rip.exe -r %i -a > %i.txt)
 ```
 - USB usage also can be investigate using "USB Detective Community Edition"
 - Nirsoft software might have a good tool for viewing your artifacts
+- Remote administration software: https://ruler-project.github.io/ruler-project/RULER/remote/ and https://docs.google.com/spreadsheets/d/1G_pJ1H2yJeoLUnki6kibujUJ9445M_2hRTEm3kUCf0M
+- Reghunter command on the live system: `reg_hunter --all -z`
