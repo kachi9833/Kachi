@@ -78,7 +78,7 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 
 ## Event log / log scanning and parsing
 ```
-.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module PowerShell_Get-ChainsawSigmaRule,Chainsaw,DeepblueCLI,EvtxHussar,Zircolite_Scan,Zircolite_Update,NirSoft_FullEventLogView_AllEventLogs,Nirsoft_WinLogonView,Events-Ripper,Hayabusa,EvtxECmd,EvtxECmd_RDP,LogParser,iisGeoLocate  --gui
+.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module PowerShell_Get-ChainsawSigmaRule,Chainsaw,DeepblueCLI,EvtxHussar,Zircolite_Scan,Zircolite_Update,Nirsoft_WinLogonView,Events-Ripper,Hayabusa,EvtxECmd,EvtxECmd_RDP,LogParser,iisGeoLocate,NirSoft_FullEventLogView_Application,NirSoft_FullEventLogView_PowerShell-Operational,NirSoft_FullEventLogView_PrintService-Operational,NirSoft_FullEventLogView_ScheduledTasks,NirSoft_FullEventLogView_Security,NirSoft_FullEventLogView_System  --gui
 ```
 
 ## Program Execution
