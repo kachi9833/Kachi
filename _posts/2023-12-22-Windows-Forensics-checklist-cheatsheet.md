@@ -93,12 +93,12 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 
 ## NTFS and FileSystem parsing
 ```
-.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module BitsParser,INDXRipper,Nirsoft_AlternateStreamView,MFTECmd,NTFSLogTracker --gui
+.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module INDXRipper,Nirsoft_AlternateStreamView,MFTECmd,NTFSLogTracker,RegRipper,RECmd_AllBatchFiles --gui
 ```
 
 ## System activity
 ```
-.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module PowerShell_Get-DoSvc4n6,SRUMDump,WMI-Parser,!EZParser,RECmd_AllBatchFiles,SrumECmd,SumECmd --gui
+.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module SRUMDump,WMI-Parser,!EZParser,RECmd_AllBatchFiles,SrumECmd,SumECmd --gui
 ```
 
 ## Mounted image scanner
