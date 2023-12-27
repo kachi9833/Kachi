@@ -55,13 +55,15 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module MagnetForensics_RAMCapture --gui
 ```
 
-## Live response command
+## Live response command and scanner
 ```
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module Thor-Lite_LiveResponse,PowerShell_Get-InjectedThread,PowerShell_Get-NetworkConnection,PowerShell_Netscan,PowerShell_Signed,SIDR_WindowsIndexSearchParser,WIFIPassView,MagnetForensics_EDD,Nirsoft_BluetoothView,Nirsoft_LastActivityView,Nirsoft_OpenedFilesView,NirSoft_USBDeview,NirSoft_VideoCacheView,NirSoft_WebBrowserPassView,Nirsoft_WhatInStartup,Nirsoft_WifiHistoryView,Nirsoft_WirelessKeyView,SysInternals_Autoruns,SysInternals_Handle,SysInternals_PsFile,SysInternals_PsInfo,SysInternals_PsList,SysInternals_PsLoggedOn,SysInternals_PsService,SysInternals_PsTree,SysInternals_Tcpvcon,Powrshell_LiveResponse_SystemInfo,PowerShell_Arp_Cache_Extraction,PowerShell_Bitlocker_Key_Extraction,PowerShell_Bitlocker_Status,PowerShell_Defender_Exclusions,PowerShell_DLL_List,PowerShell_Dns_Cache,PowerShell_Local_Group_List,PowerShell_LocalAdmin,PowerShell_NamedPipes,PowerShell_NetUserAdministrators,PowerShell_Network_Configuration,PowerShell_Network_Connections_Status,PowerShell_Network_Share,PowerShell_Process_Cmdline,PowerShell_ProcessList_CimInstance,PowerShell_ProcessList_WMI,PowerShell_Services_List,PowerShell_SMBMapping,PowerShell_SMBOpenFile,PowerShell_SMBSession,PowerShell_Startup_Commands,PowerShell_User_List,PowerShell_WMIRepositoryAuditing,Windows_ARPCache,Windows_DNSCache,Windows_GpResult,Windows_IPConfig,Windows_MsInfo,Windows_nbtstat_NetBIOSCache,Windows_nbtstat_NetBIOSSessions,Windows_Net_Accounts,Windows_Net_File,Windows_Net_LocalGroup,Windows_Net_Session,Windows_Net_Share,Windows_Net_Start,Windows_Net_Use,Windows_Net_User,Windows_netsh_portproxy,Windows_NetStat,Windows_qwinsta_RDPSessions,Windows_RoutingTable,Windows_schtasks,Windows_SystemInfo,Reghunter --gui
 
-.\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module Thor-Lite_Upgrade,Thor-Lite_LiveResponse --gui
+.\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module Thor-Lite_Upgrade,Thor-Lite_Scan --gui
 
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module Loki_LiveResponse --gui
+
+.\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module hasherezade_HollowsHunter --gui
 ```
 
 ## KAPE target extraction
@@ -99,12 +101,10 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module PowerShell_Get-DoSvc4n6,SRUMDump,WMI-Parser,!EZParser,RECmd_AllBatchFiles,SrumECmd,SumECmd --gui
 ```
 
-## Scanner
+## Mounted image scanner
 ```
-.\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module Thor-Lite_Upgrade,Thor-Lite_Scan --gui
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module Loki_Scan --gui
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module DensityScout --gui
-.\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module hasherezade_HollowsHunter --gui
 ```
 
 # Analysis
