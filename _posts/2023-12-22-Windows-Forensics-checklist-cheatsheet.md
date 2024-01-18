@@ -25,7 +25,7 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 | --- | --- |
 | Arsenal Image Mounter | Mounting image |
 | Autopsy / FTK Imager | Disk forensics |
-| KAPE | Triage artifact |
+| KAPE | Triage artifact and parse artifact |
 | Eric Zimmerman tools | Artifact parser and viewer |
 | Regripper | Registry parser |
 | Volatility Workbench / MemProcFS / MemProcFS-Analyzer | Memory analysis tools |
@@ -72,6 +72,8 @@ Basic command
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module Loki_LiveResponse --gui
 
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module hasherezade_HollowsHunter --gui
+
+.\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module MagnetForensics_RAMCapture --gui
 ```
 
 ### KAPE target extraction (Target)
@@ -87,10 +89,7 @@ Warning: Super slow!
 
 ### Event log / log scanning and parsing (Module)
 ```
-.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module !!ToolSync,PowerShell_Get-ChainsawSigmaRule,Chainsaw,DeepblueCLI,EvtxHussar,Zircolite_Scan,Zircolite_Update,Nirsoft_WinLogonView,Events-Ripper,hayabusa_EventStatistics,hayabusa_OfflineEventLogs,hayabusa_OfflineLogonSummary,hayabusa_UpdateRules,EvtxECmd,EvtxECmd_RDP,LogParser,iisGeoLocate --gui
-
-# slow
-.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module NirSoft_FullEventLogView_AllEventLogs --gui
+.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module !!ToolSync,PowerShell_Get-ChainsawSigmaRule,Chainsaw,DeepblueCLI,EvtxHussar,Zircolite_Update,Zircolite_Scan,Events-Ripper,hayabusa_EventStatistics,hayabusa_OfflineEventLogs,hayabusa_OfflineLogonSummary,hayabusa_UpdateRules,EvtxECmd,EvtxECmd_RDP,LogParser,iisGeoLocate
 ```
 
 ### Program Execution (Module)
@@ -105,12 +104,12 @@ Warning: Super slow!
 
 ### NTFS and FileSystem parsing (Module)
 ```
-.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module !!ToolSync,INDXRipper,Nirsoft_AlternateStreamView,MFTECmd,NTFSLogTracker,RegRipper,RECmd_AllBatchFiles --gui
+.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module !!ToolSync,INDXRipper,MFTECmd,NTFSLogTracker,RegRipper,RECmd_AllBatchFiles --gui
 ```
 
 ### System activity (Module)
 ```
-.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module SRUMDump,WMI-Parser,!EZParser,RECmd_AllBatchFiles,SrumECmd,SumECmd --gui
+.\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module SRUMDump,WMI-Parser,RECmd_AllBatchFiles,SrumECmd,SumECmd --gui
 ```
 
 ### Mounted image scanner (Module)
