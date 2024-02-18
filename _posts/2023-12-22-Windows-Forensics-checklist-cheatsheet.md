@@ -307,10 +307,29 @@ Refer: https://jpcertcc.github.io/ToolAnalysisResultSheet/#
 
 ### File Records
 
+MFT Attributes:
+1. $STANDARD_INFORMATION ($SI)
+2. $FILE_NAME ($FN)
+3. $DATA
+4. $EA (Extended Attributes)
+
 | Artifact | Location | Tools or Commands |
 | --- | --- | --- |
-| MFT | `C:\` | `MFTECmd.exe -f "C:\Temp\SomeMFT" --csv "c:\temp\out" --csvf MyOutputFile.csv` or NTFS Log Tracker |
-| UsnJrnl | `C:\$Extend` | `MFTECmd.exe -f "C:\Temp\SomeJ" --csv "c:\temp\out" --csvf MyOutputFile.csv` or NTFS Log Tracker |
+| MFT | `C:\` | `MFTECmd.exe -f "C:\Temp\SomeMFT" --csv "c:\temp\out" --csvf MyOutputFile.csv`|
+| UsnJrnl | `C:\$Extend` | `MFTECmd.exe -f "C:\Temp\SomeJ" --csv "c:\temp\out" --csvf MyOutputFile.csv`|
+
+Other useful tools:
+1. analyzeMFT.py: Parse $MFT files and summarize those information
+2. MFTRCRD: MFT record decoder for online filesystem
+3. Mft2Csv: Parse $MFT files and raw disk images. It can extract resident files from $MFT.
+4. Fte: Parse MFT and INDX
+5. MFTCarver: Can recover old MFT entries that are not listed in current MFT
+6. Bulk Extractor: Contains scanner plug-ins for records of $MFT, $LogFile, $UsnJrnl:$J, $INDEX_ALLOCATION, and utmp structure.
+7. NTFS Log Tracker: Parses $Logfile and $UsnJrnl:$J
+8. USN Analytics: Parse records of $UsnJrnl that were extracted by BE
+9. Indx2Csv: Parse for INDX
+10. INDXParse: Parses a single $I30
+11. IndxCarver: Can recover old INDX records to get information about deleted files and folders
 
 Follow Windows Time Rules below:
 
