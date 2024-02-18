@@ -229,9 +229,9 @@ First, create a spreadsheet that will be the main documentation of your findings
 | 4734 | Security | A Security-Enabled Local Group was Deleted |
 | 4741 | Security | A Computer Account was Created |
 | 4742 | Security | A Computer Account was Changed |
-| 4768 | Security | Kerberos Authentication Service Ticket Request |
-| 4769 | Security | Kerberos Service Ticket Renewal |
-| 4776 | Security | Credential Validation |
+| 4768 | Security (DC) | Kerberos TGT request |
+| 4769 | Security (DC) | Kerberos Service Ticket request |
+| 4776 | Security  | NTLM authentication |
 | 4778 | Security | Session Reconnected |
 | 4779 | Security | Session Disconnected by User |
 | 4794 | Security | An Attempt was Made to Set the Directory Services Restore Mode Administrator Password |
@@ -250,13 +250,13 @@ First, create a spreadsheet that will be the main documentation of your findings
 |---|---|
 | 2 | Logon via console |
 | 3 | Network Logon. A user or computer logged on to this computer from the network |
-| 4 | Batch Logon |
-| 5 | Windows Service Logon  |
+| 4 | Batch Logon (Task scheduler and AT) |
+| 5 | Windows Service logon  |
 | 7 | Credentials used to unlock screen  |
 | 8 | Network logon sending credentials (cleartext)    |
 | 9 | Different credentials used than logon user |
 | 10 | Remote Interactive logon (RDP)  |
-| 11 | Cached credentials used to logon|
+| 11 | Cached credentials used to logon |
 | 12 | Cached remote interactive |
 | 13 | Cached Unlock (Similar to logon type 7)  |
 
