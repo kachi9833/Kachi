@@ -257,7 +257,7 @@ First, create a spreadsheet that will be the main documentation of your findings
 | 9 | Different credentials used than logon user |
 | 10 | Remote Interactive logon (RDP)  |
 | 11 | Cached credentials used to logon |
-| 12 | Cached remote interactive |
+| 12 | Cached remote interactive (RDP) |
 | 13 | Cached Unlock (Similar to logon type 7)  |
 
 ### Other's log important Event IDs
@@ -297,11 +297,27 @@ First, create a spreadsheet that will be the main documentation of your findings
 | 10 | Microsoft-Windows-Sysmon/Operational | ProcessAccess |
 | 11 | Microsoft-Windows-Sysmon/Operational | FileCreate |
 | 12 | Microsoft-Windows-Sysmon/Operational | RegistryEvent (Object create and delete) |
+| 1149 | Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational | RDP User authentication succeeded |
+| 21 | Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational | RDP Session logon succeeded |
+| 24 | Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational | RDP Session has been disconnected  |
+| 25 | Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational | RDP Session reconnection succeeded |
 
 Event ID KB: https://system32.eventsentry.com/ and https://www.myeventlog.com/search/browse
 
 ### Detecting Lateral movement via Event log
 Refer: https://jpcertcc.github.io/ToolAnalysisResultSheet/#
+
+#### RDP
+- Security.evtx: 4624 (logon type 10 or 12), 4648 
+- Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational: 1149, 21, 24, 25
+
+#### Task Scheduler/AT
+- Security.evtx: 4624
+- Microsoft-Windows-TaskScheduler%4Operational: 100, 102, 106, 107, 110, 129, 140, 141, 200, 325
+
+#### PsExec
+- Security.evtx: 4624
+- System.evtx: 7045
 
 ## Triage artifacts parsing and analysis
 
