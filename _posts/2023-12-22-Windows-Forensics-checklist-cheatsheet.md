@@ -118,7 +118,7 @@ Warning: Super slow!
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module DensityScout --gui
 ```
 
-# Analysis
+# Analysis Findings
 First, create a spreadsheet that will be the main documentation of your findings especially for Timeline. Include few relavant aspects in the spreadsheet such as:
 1. Artifact type
 2. Findings
@@ -304,21 +304,6 @@ First, create a spreadsheet that will be the main documentation of your findings
 
 Event ID KB: https://system32.eventsentry.com/ and https://www.myeventlog.com/search/browse
 
-### Detecting Lateral movement via Event log
-Refer: https://jpcertcc.github.io/ToolAnalysisResultSheet/#
-
-#### RDP
-- Security.evtx: 4624 (logon type 10 or 12), 4648 
-- Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational: 1149, 21, 24, 25
-
-#### Task Scheduler/AT
-- Security.evtx: 4624
-- Microsoft-Windows-TaskScheduler%4Operational: 100, 102, 106, 107, 110, 129, 140, 141, 200, 325
-
-#### PsExec
-- Security.evtx: 4624
-- System.evtx: 7045
-
 ## Triage artifacts parsing and analysis
 
 ### File Records
@@ -474,9 +459,49 @@ Another good reference: https://ruler-project.github.io/ruler-project/RULER/av/
 | WMI persistence | `C:\WINDOWS\system32\wbem\Repository\FS\OBJECTS.DATA` | WMI_Forensics |
 | RDP Cache | `C:\%USERPROFILE%\AppData/Local/Microsoft/Terminal Server Client/Cache` | BMC-Tools |
 
+## Lateral Movement Detection and Investigation
+Detail information refer: https://jpcertcc.github.io/ToolAnalysisResultSheet/#
+
+Below list shows the sum up of the information in the above reference.
+
+### RDP
+<details>
+<summary>Details</summary>
+<br>
+  
+#### Event log
+| Event Log | Event ID |
+|---|---|
+| Security | 4624 (logon type 10 or 12), 4648, 4778, 4779 |
+| RDPClient Operational | 1024, 1025, 1026, 1102 |
+| RDPCoreTS Operational | 131, 98, 99 |
+| RemoteConnection Manager Operational | 1149, 21, 24, 25 |
+| RemoteConnection Manager Admin | 1158 |
+| LocalSession Manager Operational | 21, 23, 24, 25, 41 |
+| Sysmon | 1, 3, 10 |
+
+#### File System
+| Artifact | Location | Computer |
+|---|---|---|
+| Prefetch | `C:\Windows\Prefetch\MSTSC.EXE-[RANDOM].pf` | Source |
+| Jumplist | `C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\` | Source |
+| Bitmap Cache | `C:\Users\USERNAME\AppData\Local\Microsoft\Terminal Server Client\Cache\` | Source |
+| Prefetch | `C:\Windows\Prefetch\rdpclip.exe-[RANDOM].pf` and `C:\Windows\Prefetch\tstheme.exe-[RANDOM].pf` | Target |
+
+#### Registry
+| Artifact | Findings | Computer |
+|---|---|---|
+| User Profile (NTUSER.DAT) | `NTUSER\SOFTWARE\Microsoft\Terminal Server Client\Servers` | Source |
+| Shimcache (SYSTEM) | `mstsc.exe` | Source |
+| BAM/DAM (SYSTEM) | Last Execution time of `mstsc.exe` | Source |
+| Amcache.hve | First Execution time of `mstsc.exe` | Source |
+| UserAssist (NTUSER.dat) | Last Execution time and Numbers of Times of `mstsc.exe` | Source |
+| RecentApps (NTUSER.DAT) | Last Execution time and Numbers of Times of `mstsc.exe` | Source |
+| ShimCache (SYSTEM) | `rdpclip.exe` and `tstheme.exe` | Target |
+| AmCache.hve | `rdpclip.exe` and `tstheme.exe` | Target |
+</details>
 
 ## Other notes
-
 - Command to parse all registry in a folder using Regripper
 ```
 cd folder_containing_all_registries
