@@ -478,15 +478,15 @@ Below list shows the sum up of the information in the above reference.
 
 #### File System
 | Artifact | Location | Computer |
-|---|---|---|
-| Prefetch | `C:\Windows\Prefetch\MSTSC.EXE-[RANDOM].pf` | Source |
+| --- | --- |--- |
+| Prefetch | `C:\Windows\Prefetch\MSTSC.EXE-RANDOM.pf` | Source |
 | Jumplist | `C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\` | Source |
 | Bitmap Cache | `C:\Users\USERNAME\AppData\Local\Microsoft\Terminal Server Client\Cache\` | Source |
-| Prefetch | `C:\Windows\Prefetch\rdpclip.exe-[RANDOM].pf` and `C:\Windows\Prefetch\tstheme.exe-[RANDOM].pf` | Target |
+| Prefetch | `C:\Windows\Prefetch\rdpclip.exe-RANDOM.pf` and `C:\Windows\Prefetch\tstheme.exe-RANDOM.pf` | Target |
 
 #### Registry
 | Artifact | Findings | Computer |
-|---|---|---|
+| --- | --- | --- |
 | User Profile (NTUSER.DAT) | `NTUSER\SOFTWARE\Microsoft\Terminal Server Client\Servers` | Source |
 | Shimcache (SYSTEM) | `mstsc.exe` | Source |
 | BAM/DAM (SYSTEM) | Last Execution time of `mstsc.exe` | Source |
