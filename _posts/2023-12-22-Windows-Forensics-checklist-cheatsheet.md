@@ -465,10 +465,6 @@ Detail information refer: https://jpcertcc.github.io/ToolAnalysisResultSheet/#
 Below list shows the sum up of the information in the above reference.
 
 ### RDP
-<details>
-<summary>Details</summary>
-<br>
-  
 #### Event log
 | Event Log | Event ID |
 |---|---|
@@ -499,7 +495,6 @@ Below list shows the sum up of the information in the above reference.
 | RecentApps (NTUSER.DAT) | Last Execution time and Numbers of Times of `mstsc.exe` | Source |
 | ShimCache (SYSTEM) | `rdpclip.exe` and `tstheme.exe` | Target |
 | AmCache.hve | `rdpclip.exe` and `tstheme.exe` | Target |
-</details>
 
 ## Other notes
 - Command to parse all registry in a folder using Regripper
