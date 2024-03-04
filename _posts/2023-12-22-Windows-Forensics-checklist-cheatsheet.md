@@ -466,7 +466,6 @@ Below list shows the sum up of the information in the above reference.
 
 ### RDP
 
-#### Event log
 | Event Log | Event ID |
 |---|---|
 | Security | 4624 (logon type 10 or 12), 4648, 4778, 4779 |
@@ -477,8 +476,6 @@ Below list shows the sum up of the information in the above reference.
 | LocalSession Manager Operational | 21, 23, 24, 25, 41 |
 | Sysmon | 1, 3, 10 |
 
-#### File System
-
 | Artifact | Location | Computer |
 | --- | --- |--- |
 | Prefetch | `C:\Windows\Prefetch\MSTSC.EXE-RANDOM.pf` | Source |
@@ -486,9 +483,7 @@ Below list shows the sum up of the information in the above reference.
 | Bitmap Cache | `C:\Users\USERNAME\AppData\Local\Microsoft\Terminal Server Client\Cache\` | Source |
 | Prefetch | `C:\Windows\Prefetch\rdpclip.exe-RANDOM.pf` and `C:\Windows\Prefetch\tstheme.exe-RANDOM.pf` | Target |
 
-#### Registry
-
-| Artifact | Findings | Computer |
+| Registry | Findings | Computer |
 | --- | --- | --- |
 | User Profile (NTUSER.DAT) | `NTUSER\SOFTWARE\Microsoft\Terminal Server Client\Servers` | Source |
 | Shimcache (SYSTEM) | `mstsc.exe` | Source |
@@ -498,6 +493,28 @@ Below list shows the sum up of the information in the above reference.
 | RecentApps (NTUSER.DAT) | Last Execution time and Numbers of Times of `mstsc.exe` | Source |
 | ShimCache (SYSTEM) | `rdpclip.exe` and `tstheme.exe` | Target |
 | AmCache.hve | `rdpclip.exe` and `tstheme.exe` | Target |
+
+### PsExec
+
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4624, 4688, 4689 | Source |
+| System | 7045 | Source |
+| Sysmon | 1, 3, 13, 18 | Source |
+| Security | 5145, 4689, 4674 | Target |
+| Sysmon | 1, 11 | Target |
+| System | 7045, 7036 | Target |
+
+| Artifact | Location | Computer |
+| --- | --- |--- |
+| Prefetch | `C:\Windows\Prefetch\[Executable File Name of Tool]-[RANDOM].pf` | Source |
+| USNJ and MFT | `PSEXESVC.exe` and `PSEXESVC.EXE-RANDOM.pf` | Target |
+| Prefetch | `C:\Windows\Prefetch\PSEXESVC.EXE-RANDOM.pf` | Target |
+
+| Registry | Findings | Computer |
+| --- | --- | --- |
+| User Profile (NTUSER.DAT) | `NTUSER\SOFTWARE\\Sysinternals\PsExec\EulaAccepted` | Source |
+
 
 ## Other notes
 - Command to parse all registry in a folder using Regripper
