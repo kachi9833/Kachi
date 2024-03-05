@@ -464,6 +464,10 @@ Detail information refer: https://jpcertcc.github.io/ToolAnalysisResultSheet/#
 
 Below list shows the sum up of the information in the above reference.
 
+### Remote tools
+- Check for any installation, files of remote tools or services
+- List of remote administaration tool can be refer here: https://ruler-project.github.io/ruler-project/RULER/remote/ and https://docs.google.com/spreadsheets/d/1G_pJ1H2yJeoLUnki6kibujUJ9445M_2hRTEm3kUCf0M
+
 ### RDP
 
 | Event Log | Event ID |
@@ -474,7 +478,6 @@ Below list shows the sum up of the information in the above reference.
 | RemoteConnection Manager Operational | 1149, 21, 24, 25 |
 | RemoteConnection Manager Admin | 1158 |
 | LocalSession Manager Operational | 21, 23, 24, 25, 41 |
-| Sysmon | 1, 3, 10 |
 
 | Artifact | Location | Computer |
 | --- | --- |--- |
@@ -500,9 +503,7 @@ Below list shows the sum up of the information in the above reference.
 |---|---|---|
 | Security | 4624, 4688, 4689 | Source |
 | System | 7045 | Source |
-| Sysmon | 1, 3, 13, 18 | Source |
 | Security | 5145, 4689, 4674 | Target |
-| Sysmon | 1, 11 | Target |
 | System | 7045, 7036 | Target |
 
 | Artifact | Location | Computer |
@@ -515,6 +516,108 @@ Below list shows the sum up of the information in the above reference.
 | --- | --- | --- |
 | User Profile (NTUSER.DAT) | `NTUSER\SOFTWARE\\Sysinternals\PsExec\EulaAccepted` | Source |
 
+### WMIC
+
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4688,4624,4656 | Target |
+| WMI Activity Operational | 5857,5859,5860,5861 | Target |
+
+| Artifact | Location | Computer |
+| --- | --- |--- |
+| Prefetch | `C:\Windows\Prefetch\WMIC.EXE-[RANDOM].pf` | Source |
+| MFT and USNJ | `C:\Windows\Prefetch\WMIC.EXE-[RANDOM].pf` | Source |
+| Prefetch | `C:\Windows\Prefetch\malware.exe-[RANDOM].pf` | Target |
+| Prefetch | `C:\Windows\Prefetch\scrcons.exe-[RANDOM].pf` | Target |
+| Prefetch | `C:\Windows\Prefetch\mofcomp.exe-[RANDOM].pf` | Target |
+| Prefetch | `C:\Windows\Prefetch\wmiprvse.exe-[RANDOM].pf` | Target |
+
+| Registry | Findings | Computer |
+| --- | --- | --- |
+| Shimcache (SYSTEM) | `Wmic.exe` | Source |
+| BAM/DAM (SYSTEM) | `Wmic.exe` | Source |
+| Amcache.hve | First Execution time of `Wmic.exe` | Source |
+| ShimCache (SYSTEM) | `scrcons.exe`, `mofcomp.exe`, `wmiprvse.exe`, `malware.exe` | Target |
+| AmCache.hve | `scrcons.exe`, `mofcomp.exe`, `wmiprvse.exe`, `malware.exe` | Target |
+
+### schtasks
+
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4648, 4689 | Source |
+| Security | 4672, 4624, 4634 | Target |
+
+| Artifact | Location | Computer |
+| --- | --- |--- |
+| Prefetch | `C:\Windows\Prefetch\SCHTASKS.EXE-[RANDOM].pf` | Source |
+| MFT and USNJ | `C:\Windows\Prefetch\SCHTASKS.EXE-[RANDOM].pf` | Source |
+| Prefetch | `C:\Windows\Prefetch\TASKENG.EXE-[RANDOM].pf` | Target |
+| MFT and USNJ | `C:\Windows\Prefetch\TASKENG.EXE-[RANDOM].pf` | Target |
+
+| Registry | Findings | Computer |
+| --- | --- | --- |
+| SYSTEM | `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\*` | Target |
+
+### Powershell
+
+| Event Log | Event ID |
+|---|---|
+| Security | 4688 |
+| PowerShell Operational| 1024, 1025, 1026, 1102 |
+| Powershell | 400,403,500,501,600 |
+
+### WinRM
+
+| Event Log | Event ID |
+|---|---|
+| Security | 4688, 4624, 4648, 5985 |
+| WinRM Operational | 6,8,11,13,41,42,44,45,47,48,91,132,169,80,81,82,800,132,134,142,143,145,196 |
+
+| Artifact | Location | Computer |
+| --- | --- |--- |
+| Prefetch | `C:\Windows\Prefetch\powershell.exe-RANDOM.pf` | Source |
+| Conmand history | `C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt` | Source |
+| Prefetch | `C:\Windows\Prefetch\MALWARE.exe-RANDOM.pf` | Target |
+| Prefetch | `C:\Windows\Prefetch\wsmprovhost.exe-RANDOM.pf` | Target |
+
+| Registry | Findings | Computer |
+| --- | --- | --- |
+| Shimcache (SYSTEM) | `Powershell.exe` | Source |
+| BAM/DAM (SYSTEM) | `Powershell.exe` | Source |
+| Amcache.hve | First Execution time of `Powershell.exe` | Source |
+| ShimCache (SYSTEM) | `wsmprovhost.exe` and `malware.exe` | Target |
+| SOFTWARE | `Microsoft\PowerShell\1\ShellIds\Microsoft.Powershell\ExecutionPolicy` Target |
+| AmCache.hve | `wsmprovhost.exe` and `malware.exe` | Target |
+
+### SMB
+
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4688,4624,4656,5140,5142,5143,5144,5145 | Source |
+| SMB Server Operational | 4100,4103,4104,800,4104,40961,40962 | Source |
+
+### SSH
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4624,4625,4688, 5154 | Target |
+| System | 10016 | Target |
+
+### DCOM
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4624,4662, 4688, 4697, 4698, 4702 | Target |
+
+### Pass-The-Hash
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4688, 4624, 4648, 4672, 4768,4769, 4776 | Target |
+
+### File Transfer
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4688 | Target |
+| Microsoft-Windows-PowerShell/ Operational | 4103, 4104 | Target |
+
 
 ## Other notes
 - Command to parse all registry in a folder using Regripper
@@ -524,5 +627,4 @@ for /r %i in (*) do (C:\RegRipper3.0\rip.exe -r %i -a > %i.txt)
 ```
 - USB usage also can be investigate using "USB Detective Community Edition"
 - Nirsoft software might have a good tool for viewing your artifacts
-- Remote administration software: https://ruler-project.github.io/ruler-project/RULER/remote/ and https://docs.google.com/spreadsheets/d/1G_pJ1H2yJeoLUnki6kibujUJ9445M_2hRTEm3kUCf0M
 - Reghunter command on the live system: `reg_hunter --all -z --outfile reg_hunter_result.txt`
