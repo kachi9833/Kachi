@@ -5,6 +5,25 @@ tags: DFIR
 
 During a Windows Forensics engagement, I occasionally find myself forgetting essential tasks or unintentionally skipping analyzing importants artifacts. Therefore, this checklist (along with cheatsheet) could help myself (or readers) and ensure that I adhere to a systematic workflow when conducting Windows Forensics.
 
+# Typical Forensic investigation flow
+![image](https://github.com/fareedfauzi/fareedfauzi.github.io/assets/56353946/fd7dcfc9-f006-4343-895d-ad8d272382ab)
+
+If you ask me the details on the acquisition and analysis part, here it is:
+1. Evidence acquisition ⇛ Disk, memory
+2. Live response, scanner and live forensics ⇛ Autoruns, process hacker, THOR or Loki, Inquisitor
+3. Memory forensics ⇛ MemProcFS, volatility
+4. Disk Image mounting ⇛ Mounting and Triage important artifact
+5. Persistence analysis ⇛ Autoruns location, registry, WMI, Scheduled Tasks
+6. Malware analysis ⇛ Static and Dynamic analysis
+7. Checking system information ⇛ Registry
+8. Root cause analysis ⇛ Logs, web, malware, file folder activity, exploit, email, executed file
+9. Lateral movement investigation ⇛ event log, executed file, registry, file system
+10. Timeline analysis ⇛ MFT, Logfile, UsnJ parsing
+11. File access artifacts ⇛ File sharing, MountPoints, USB
+12. Recovering deleted data ⇛ Recyclebin, MFT, VSS, File carving, Keyword search (Autopsy)
+13. Malware reverse engineering
+14. Writing report
+
 # Tools
 ## Acquire artifact's Tools
 
@@ -42,12 +61,14 @@ During a Windows Forensics engagement, I occasionally find myself forgetting ess
 # Acquire artifacts
 1. Check disk encryption using EDD
 2. Perform disk imaging using FTK Imager
-3. Run live analysis collection script such as Inquisitor (Optional)
-4. Or use Kansa Framework to collect live forensic analysis result (Optional)
-5. Perform memory dump activity
-6. Execute RedLine script to perform endpoint analysis (Optional)
-7. Run Reg_hunter in the live system (Optional)
-8. Save all files in the external harddisk
+3. Perform memory dump activity using Magnet RAM Capturer for example.
+4. Save all files in the external harddisk
+5. Optional:
+    - Perform live analysis collection scanner such as Inquisitor
+    - Scan the compromised using scanner such as THOR
+    - Perform Registry scanner such as RegHunter
+    - Perform memory scanner such as hollows_hunter or moneta
+    - Perform persistent scanner such as PersistenceSniper or Trawler
 
 # KAPE cheatsheet
 Basic command
@@ -58,12 +79,20 @@ Basic command
 .\kape.exe --msource [DRIVE LETTER] --mdest [DESTINATION INCLUDE FOLDER NAME] --module [MODULE NAME] --gui
 ```
 
-### Memory dump (Module)
+## Target
+### KAPE target extraction
+```
+.\kape.exe --tsource E: --tdest D:\KAPE_cases\ --target KapeTriage,MessagingClients,RemoteAdmin,ServerTriage,WebBrowsers,WebServers,WSL,MemoryFiles --gui
+```
+
+## Module: Live Response
+
+### Memory dump
 ```
 .\kape.exe --msource C:\ --mdest D:\KAPE_cases\%m --module MagnetForensics_RAMCapture --gui
 ```
 
-### Live response command and scanner (Module)
+### Live response command and scanner
 ```
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module PowerShell_Get-InjectedThread,PowerShell_Get-NetworkConnection,PowerShell_Netscan,PowerShell_Signed,SIDR_WindowsIndexSearchParser,WIFIPassView,MagnetForensics_EDD,Nirsoft_BluetoothView,Nirsoft_LastActivityView,Nirsoft_OpenedFilesView,NirSoft_USBDeview,NirSoft_VideoCacheView,NirSoft_WebBrowserPassView,Nirsoft_WhatInStartup,Nirsoft_WifiHistoryView,Nirsoft_WirelessKeyView,SysInternals_Autoruns,SysInternals_Handle,SysInternals_PsFile,SysInternals_PsInfo,SysInternals_PsList,SysInternals_PsLoggedOn,SysInternals_PsService,SysInternals_PsTree,SysInternals_Tcpvcon,Powrshell_LiveResponse_SystemInfo,PowerShell_Arp_Cache_Extraction,PowerShell_Bitlocker_Key_Extraction,PowerShell_Bitlocker_Status,PowerShell_Defender_Exclusions,PowerShell_DLL_List,PowerShell_Dns_Cache,PowerShell_Local_Group_List,PowerShell_LocalAdmin,PowerShell_NamedPipes,PowerShell_NetUserAdministrators,PowerShell_Network_Configuration,PowerShell_Network_Connections_Status,PowerShell_Network_Share,PowerShell_Process_Cmdline,PowerShell_ProcessList_CimInstance,PowerShell_ProcessList_WMI,PowerShell_Services_List,PowerShell_SMBMapping,PowerShell_SMBOpenFile,PowerShell_SMBSession,PowerShell_Startup_Commands,PowerShell_User_List,PowerShell_WMIRepositoryAuditing,Windows_ARPCache,Windows_DNSCache,Windows_GpResult,Windows_IPConfig,Windows_MsInfo,Windows_nbtstat_NetBIOSCache,Windows_nbtstat_NetBIOSSessions,Windows_Net_Accounts,Windows_Net_File,Windows_Net_LocalGroup,Windows_Net_Session,Windows_Net_Share,Windows_Net_Start,Windows_Net_Use,Windows_Net_User,Windows_netsh_portproxy,Windows_NetStat,Windows_qwinsta_RDPSessions,Windows_RoutingTable,Windows_schtasks,Windows_SystemInfo,Reghunter,hasherezade_HollowsHunter --gui
 
@@ -76,43 +105,40 @@ Basic command
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\%m --module MagnetForensics_RAMCapture --gui
 ```
 
-### KAPE target extraction (Target)
-```
-.\kape.exe --tsource E: --tdest D:\KAPE_cases\ --target KapeTriage,MessagingClients,RemoteAdmin,ServerTriage,WebBrowsers,WebServers,WSL,MemoryFiles --gui
-```
+## Module: Parsing and scanning
 
-### All in one artifact parsing (Module)
+### All in one artifact parsing 
 Warning: Super slow!
 ```
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module Loki_Scan,DensityScout,BackstageParser,BitsParser,CCMRUAFinder_RecentlyUsedApps,Chainsaw,DeepblueCLI,DHParser,EvtxHussar,hasherezade_HollowsHunter,INDXRipper,LevelDBDumper,OneDriveExplorer,PowerShell_Get-ChainsawSigmaRules,TeamsParser,ThumbCacheViewer,WMI-Parser,Zircolite_Scan,Zircolite_Update,LogParser_ApacheAccessLogs,LogParser_DetailedNetworkShareAccess,LogParser_LogonLogoffEvents,LogParser_RDPUsageEvents,LogParser_SMBServerAnonymousLogons,Nirsoft_AlternateStreamView,NirSoft_BrowsingHistoryView,NirSoft_FullEventLogView_AllEventLogs,NirSoft_FullEventLogView_Application,NirSoft_FullEventLogView_PowerShell-Operational,NirSoft_FullEventLogView_PrintService-Operational,NirSoft_FullEventLogView_ScheduledTasks,NirSoft_FullEventLogView_Security,NirSoft_FullEventLogView_System,NirSoft_TurnedOnTimesView,NirSoft_WebBrowserDownloads,Nirsoft_WinLogonView,SysInternals_SigCheck,TZWorks_CAFAE_Registry_System,Events-Ripper,Hayabusa,LogParser,MFTECmd,NTFSLogTracker,RECmd_AllBatchFiles,Reghunter,RegRipper,AmcacheParser,AppCompatCacheParser,EvtxECmd,EvtxECmd_RDP,iisGeoLocate,JLECmd,LECmd,PECmd,RBCmd,RecentFileCacheParser,SBECmd,SQLECmd,SQLECmd_Hunt,SrumECmd,SumECmd,WxTCmd,Sync_EvtxECmd,Sync_KAPE,Sync_RECmd,Sync_SQLECmd,Windows_ManageBDE_BitLockerKeys,Windows_ManageBDE_BitLockerStatus --gui
 ```
 
-### Event log / log scanning and parsing (Module)
+### Event log / log scanning and parsing 
 ```
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module !!ToolSync,PowerShell_Get-ChainsawSigmaRule,Chainsaw,DeepblueCLI,EvtxHussar,Zircolite_Update,Zircolite_Scan,Events-Ripper,hayabusa_EventStatistics,hayabusa_OfflineEventLogs,hayabusa_OfflineLogonSummary,hayabusa_UpdateRules,EvtxECmd,EvtxECmd_RDP,LogParser,iisGeoLocate
 ```
 
-### Program Execution (Module)
+### Program Execution 
 ```
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module CCMRUAFinder_RecentlyUsedApps,AmcacheParser,AppCompatCacheParser,PECmd,RecentFileCacheParser --gui
 ```
 
-### File folder activity (Module)
+### File folder activity 
 ```
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module BackstageParser,OneDriveExplorer,ThumbCacheViewer,JLECmd,LECmd,RBCmd,SBECmd,WxTCmd --gui
 ```
 
-### NTFS and FileSystem parsing (Module)
+### NTFS and FileSystem parsing 
 ```
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module !!ToolSync,INDXRipper,MFTECmd,NTFSLogTracker,RegRipper,RECmd_AllBatchFiles --gui
 ```
 
-### System activity (Module)
+### System activity 
 ```
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module SRUMDump,WMI-Parser,RECmd_AllBatchFiles,SrumECmd,SumECmd --gui
 ```
 
-### Mounted image scanner (Module)
+### Mounted image scanner 
 ```
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module Loki_Scan --gui
 .\kape.exe --msource E:\ --mdest D:\KAPE_cases\ --module DensityScout --gui
@@ -314,7 +340,7 @@ MFT Attributes:
 3. $DATA
 4. $EA (Extended Attributes)
 
-| Artifact | Location | Tools or Commands |
+| Filesystem | Location | Tools or Commands |
 | --- | --- | --- |
 | MFT | `C:\` | `MFTECmd.exe -f "C:\Temp\SomeMFT" --csv "c:\temp\out" --csvf MyOutputFile.csv`|
 | UsnJrnl | `C:\$Extend` | `MFTECmd.exe -f "C:\Temp\SomeJ" --csv "c:\temp\out" --csvf MyOutputFile.csv`|
@@ -339,7 +365,7 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 
 ### System and user Information (via Registry)
 
-| Artifact | Location | Tools or Commands |
+| Filesystem | Location | Tools or Commands |
 | --- | --- | --- |
 | Operating System Version | `SOFTWARE\Microsoft\Windows NT\CurrentVersion` | Registry Explorer |
 | System Boot & Autostart Programs | Run registries | Registry Explorer |
@@ -351,7 +377,7 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 
 ### Application Execution
 
-| Artifact | Location | Tools or Commands |
+| Filesystem | Location | Tools or Commands |
 | --- | --- | --- |
 | Shimcache | `SYSTEM\CurrentControlSet\Control\SessionManager\AppCompatCache` | RegRipper |
 | Amcache.hve | `C:\Windows\AppCompat\Programs\Amcache.hve` | Registry Explorer |
@@ -359,7 +385,7 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 | Win10 Timeline | `C:\%USERPROFILE%\AppData\Local\ConnectedDevicesPlatform\L.Administrator\ActivitiesCache.db` | `WxTCmd.exe -f "ActivitiesCache.db" --csv D:\Hands-On` |
 | SRUM | `C:\Windows\System32\sru\SRUDB.dat` | srum-dump |
 | BAM / DAM | `SYSTEM\ControlSet001\Services\bam\State\UserSettings\` | Registry Explorer |
-| Prefetch | `C:\Windows\prefetch` | `PECmd.exe -d D:\Windows\prefetch --csv "D:\Hands-On" --csvf prefetch.csv` or WinPrefetch |
+| Prefetch, MFT, USNJ | `C:\Windows\prefetch` | `PECmd.exe -d D:\Windows\Prefetch, MFT, USNJ--csv "D:\Hands-On" --csvf prefetch.csv` or WinPrefetch, MFT, USNJ |
 | Task Bar Feature Usage | `NTUSER\Software\Microsoft\Windows\CurrentVersion\Explorer\FeatureUsage` | Registry Explorer |
 | Jumplist | `C:\%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations` | Jumplist Explorer |
 | Last Visited MRU | `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedPidlMRU` | RegRipper |
@@ -369,7 +395,7 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 
 ### File and Folder Opening
 
-| Artifact | Location | Tools or Commands |
+| Filesystem | Location | Tools or Commands |
 | --- | --- | --- |
 | Shellbag | `NTUSER.dat\Software\Microsoft\Windows\Shell\Bags` | Shellbags Explorer |
 | Open/Save MRU | `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSavePIDlMRU` | Registry Explorer |
@@ -386,7 +412,7 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 
 ### Deleted Items and File Existence
 
-| Artifact | Location | Tools or Commands |
+| Filesystem | Location | Tools or Commands |
 | --- | --- | --- |
 | Recycle Bin | `C:\$Recycle.Bin` | Recbin |
 | Thumbcache | `%USERPROFILE%\AppData\Local\Microsoft\Windows\Explorer` | Thumbcache Viewer |
@@ -398,13 +424,13 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 
 ### Browser activity
 
-| Artifact | Location | Tools or Commands |
+| Filesystem | Location | Tools or Commands |
 | --- | --- | --- |
 | Browser activity | `C:\Users\%user%\AppData\Local\\Roaming\BrowserName` | DBBrowser | 
 
 ### Network Usage
 
-| Artifact | Location | Tools or Commands |
+| Filesystem | Location | Tools or Commands |
 | --- | --- | --- |
 | Network History | `SOFTWARE\Microsoft\Windows NT\CurrentVersion\Network*` | Registry Explorer |
 | Timezone | `SYSTEM\CurrentControlSet\Control\TimeZoneInformation` | Registry Explorer |
@@ -414,7 +440,7 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 
 ### USB Usage
 
-| Artifact | Location | Tools or Commands |
+| Filesystem | Location | Tools or Commands |
 | --- | --- | --- |
 | USB Device Identification | `SYSTEM\CurrentControlSet\Enum\*` | Registry Explorer |
 | Drive Letter and Volume Name | `SOFTWARE\Microsoft\Windows Portable Devices\Devices` and `SYSTEM\MountedDevices` | Registry Explorer |
@@ -427,7 +453,7 @@ Credit: SANS Windows Forensic Analysis Poster (digital-forensics.sans.org)
 
 ### AntiVirus logs
 
-| Artifact | Location |
+| Filesystem | Location |
 | --- | --- |
 | Avast | `C:\ProgramData\Avast Software\` |
 | AVG | `C:\ProgramData\AVG\Antivirus\` |
@@ -445,7 +471,7 @@ Another good reference: https://ruler-project.github.io/ruler-project/RULER/av/
 
 ## Other Artifacts
 
-| Artifact | Location | Tools or Commands |
+| Filesystem | Location | Tools or Commands |
 | --- | --- | --- |
 | Task Scheduler | `SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks` or `\Windows\Tasks` or `Windows\System32\Tasks` | Registry Explorer |
 | Startup folder | `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup` | Autopsy |
@@ -459,32 +485,84 @@ Another good reference: https://ruler-project.github.io/ruler-project/RULER/av/
 | WMI persistence | `C:\WINDOWS\system32\wbem\Repository\FS\OBJECTS.DATA` | WMI_Forensics |
 | RDP Cache | `C:\%USERPROFILE%\AppData/Local/Microsoft/Terminal Server Client/Cache` | BMC-Tools |
 
-## Lateral Movement Detection and Investigation
+## Other
+- Command to parse all registry in a folder using Regripper
+```
+cd folder_containing_all_registries
+for /r %i in (*) do (C:\RegRipper3.0\rip.exe -r %i -a > %i.txt)
+```
+- USB usage also can be investigate using "USB Detective Community Edition"
+- Nirsoft software might have a good tool for viewing your artifacts
+- Reghunter command on the live system: `reg_hunter --all -z --outfile reg_hunter_result.txt`
+
+# Lateral Movement Detection and Investigation
 Detail information refer: https://jpcertcc.github.io/ToolAnalysisResultSheet/#
 
-Below list shows the sum up of the information in the above reference.
+Typically lateral movement will involve with (depend on the attacker TTP):
+1. Credential harvesting
+2. File sharing
+3. Remote login
+4. AD enumeration
+5. Remote execution
+6. Pass-the-hash/ticket
+7. Privilege Escalation
+8. Golden/Silver Ticket
+9. User creation
+10. Deleting evidence
 
-### Remote tools
-- Check for any installation, files of remote tools or services
-- List of remote administaration tool can be refer here: https://ruler-project.github.io/ruler-project/RULER/remote/ and https://docs.google.com/spreadsheets/d/1G_pJ1H2yJeoLUnki6kibujUJ9445M_2hRTEm3kUCf0M
+Below list shows the sum up of the information in the above reference but focusing only on standard setting and configuration of Windows.
+
+## 1. Credential harvesting
+- Analysts can rely on the Prefetch, MFT, USNJartifact for standard settings on the host computer.
+- Various password dump tools that utilize PowerShell can be found in:
+    - `Microsoft-Windows-PowerShell/Operational`
+    - `C:\Users\[User Name]\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt`
+
+## 2. File sharing
+### Windows Admin share (net use)
+Commonly for transfering their tools and malware. Or can be abuse for exfiltrate data.
+
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4648 | Source |
+| SMBClient-Security | 31001 | Source |
+| Security | 4624, 4672, 4776, 4768, 4769, 5140, 5145 | Destination |
+
+| Filesystem | Location | Computer |
+| --- | --- |--- |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\net.EXE-RANDOM.pf` and `C:\Windows\Prefetch\net1.EXE-RANDOM.pf`| Source |
+| Jumplist | `C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\` | Source |
+| USNJ or MFT | Created file | Source |
+
+| Registry | Findings | Computer |
+| --- | --- | --- |
+| User Profile (NTUSER.DAT) | `NTUSER\Software\Microsoft\Windows\CurrentVersion\Explorer\MountPoints2` | Source |
+| USRCLASS.dat | Shellbags (Remote folders accessed) | Source |
+| Shimcache (SYSTEM) | `net.exe` and `net1.exe` | Source |
+| BAM/DAM (SYSTEM) | Last time executed `net.exe` and `net1.exe` | Source |
+| Amcache.hve | First Execution time of `net.exe` and `net1.exe` | Source |
+
+## 3. Remote login
+Attacker might utilizes the remote login feature such as RDP, VNC, external software or SSH to login remotely
 
 ### RDP
 
-| Event Log | Event ID |
-|---|---|
-| Security | 4624 (logon type 10 or 12), 4648, 4778, 4779 |
-| RDPClient Operational | 1024, 1025, 1026, 1102 |
-| RDPCoreTS Operational | 131, 98, 99 |
-| RemoteConnection Manager Operational | 1149, 21, 24, 25 |
-| RemoteConnection Manager Admin | 1158 |
-| LocalSession Manager Operational | 21, 23, 24, 25, 41 |
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4648 | Source |
+| RDPClient Operational | 1024, 1025, 1026, 1102 | Source |
+| Security |  4624 (logon type 10 or 12), 4778, 4779 | Destination |
+| RDPCoreTS Operational | 131, 98, 99 | Destination |
+| RemoteConnection Manager Operational | 1149 | Destination |
+| RemoteConnection Manager Admin | 1158 | Destination |
+| LocalSession Manager Operational | 21, 23, 24, 25, 41 | Destination |
 
-| Artifact | Location | Computer |
+| Filesystem | Location | Computer |
 | --- | --- |--- |
-| Prefetch | `C:\Windows\Prefetch\MSTSC.EXE-RANDOM.pf` | Source |
-| Jumplist | `C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\` | Source |
-| Bitmap Cache | `C:\Users\USERNAME\AppData\Local\Microsoft\Terminal Server Client\Cache\` | Source |
-| Prefetch | `C:\Windows\Prefetch\rdpclip.exe-RANDOM.pf` and `C:\Windows\Prefetch\tstheme.exe-RANDOM.pf` | Target |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\MSTSC.EXE-RANDOM.pf` | Source |
+| Jumplist | `C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\` (MSTSC-APPID-automaticDestinations-ms) | Source |
+| Bitmap Cache | `C:\Users\USERNAME\AppData\Local\Microsoft\Terminal Server Client\Cache\*` | Source |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\rdpclip.exe-RANDOM.pf` and `C:\Windows\Prefetch\tstheme.exe-RANDOM.pf` | Destination |
 
 | Registry | Findings | Computer |
 | --- | --- | --- |
@@ -494,100 +572,190 @@ Below list shows the sum up of the information in the above reference.
 | Amcache.hve | First Execution time of `mstsc.exe` | Source |
 | UserAssist (NTUSER.dat) | Last Execution time and Numbers of Times of `mstsc.exe` | Source |
 | RecentApps (NTUSER.DAT) | Last Execution time and Numbers of Times of `mstsc.exe` | Source |
-| ShimCache (SYSTEM) | `rdpclip.exe` and `tstheme.exe` | Target |
-| AmCache.hve | `rdpclip.exe` and `tstheme.exe` | Target |
+| ShimCache (SYSTEM) | `rdpclip.exe` and `tstheme.exe` | Destination |
+| AmCache.hve | `rdpclip.exe` and `tstheme.exe` | Destination |
+
+### Remote tools software
+- Check for any installation, files of remote tools or services
+- List of remote administaration tool can be refer here: https://ruler-project.github.io/ruler-project/RULER/remote/ and https://docs.google.com/spreadsheets/d/1G_pJ1H2yJeoLUnki6kibujUJ9445M_2hRTEm3kUCf0M
+- Identify the software installed and running processes. Oftenly it has agent running.
+- Investigate the logs.
+
+### SSH
+
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4624,4625,4688, 5154 | Destination |
+| System | 10016 | Destination |
+
+| Filesystem | Location | Computer |
+| --- | --- |--- |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\[SSH executable].exe-RANDOM.pf` | Destination |
+
+| Registry | Findings | Computer |
+| --- | --- | --- |
+| User Profile (NTUSER.DAT) | `Software\SimonTatham\PuTTY\SshHostKeys` | Destination |
+
+## Remote Execution
+
+### Pass-The-Hash-Ticket (WCE)
+
+| Event Log | Event ID | Computer |
+|---|---|---|
+| System | 7045, 7036 (WCESERVICE) | Source |
+| Security | 4624, 4634 | Destination |
+| Security | 4776, 4771, 5156 | DC |
+
+| Filesystem | Location | Computer |
+| --- | --- |--- |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\[Tool name].exe-RANDOM.pf` | Source |
+| USNJ | 	wceaux.dll` | Source |
+
+### Pass-The-Hash-Ticket (Mimikatz)
+
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4624, 4672, 4634 | Destination |
+| Security | 4776, 4771, 5156, 4769 | DC |
+
+| Filesystem | Location | Computer |
+| --- | --- |--- |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\[Tool name].exe-RANDOM.pf` | Source |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\WMIC.EXE-[RANDOM].pf` | Source |
 
 ### PsExec
 
 | Event Log | Event ID | Computer |
 |---|---|---|
-| Security | 4624, 4688, 4689 | Source |
-| System | 7045 | Source |
-| Security | 5145, 4689, 4674 | Target |
-| System | 7045, 7036 | Target |
+| Security | 4648 | Source |
+| Security | 4624 (Logon type 3 or 2), 4672, 5140 | Destination |
+| System | 7045, 7036 | Destination |
 
-| Artifact | Location | Computer |
+| Filesystem | Location | Computer |
 | --- | --- |--- |
-| Prefetch | `C:\Windows\Prefetch\[Executable File Name of Tool]-[RANDOM].pf` | Source |
-| USNJ and MFT | `PSEXESVC.exe` and `PSEXESVC.EXE-RANDOM.pf` | Target |
-| Prefetch | `C:\Windows\Prefetch\PSEXESVC.EXE-RANDOM.pf` | Target |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\[Executable File Name of Tool]-[RANDOM].pf` | Source |
+| MFT, USNJ | psexec.exe executable | Source |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\PSEXESVC.EXE-RANDOM.pf` | Destination |
+| C:\Windows | `psexesvc.exe` or renamed executable | Destination |
 
 | Registry | Findings | Computer |
 | --- | --- | --- |
-| User Profile (NTUSER.DAT) | `NTUSER\SOFTWARE\\Sysinternals\PsExec\EulaAccepted` | Source |
+| User Profile (NTUSER.DAT) | `NTUSER\SOFTWARE\Sysinternals\PsExec\EulaAccepted` | Source |
+| Shimcache (SYSTEM) | `psexec.exe` | Source |
+| BAM/DAM (SYSTEM) | Last execution time of`psexec.exe` | Source |
+| Amcache.hve | First Execution time of `psexec.exe` | Source |
+| SYSTEM | `SYSTEM\CurrentControlSet\Services\PSEXESVC` | Destination |
+| Shimcache (SYSTEM) | `psexecsvc.exe` | Destination |
+| Amcache.hve | First Execution time of `psexecsvc.exe` | Destination |
+
+Memory analysis, find this pipe in the processes:
+```
+\\X.X.X.X\pipe\PSEXESVC-<sourcehostname>-<PID>-stdin
+\\X.X.X.X\pipe\PSEXESVC-<sourcehostname>-<PID>-stdout
+\\X.X.X.X\pipe\PSEXESVC-<sourcehostname>-<PID>-stderr
+```
+
+### Remote Services
+
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4624 (Logon type 3), 4697 | Destination |
+| System | 7034, 7035, 7036, 7040, 7045 | Destination |
+
+| Filesystem | Location | Computer |
+| --- | --- |--- |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\sc.exe-RANDOM.pf` | Source |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\evil.exe-RANDOM.pf` | Destination |
+| File disk | Creation of evil.exe or dll | Destination |
+
+| Registry | Findings | Computer |
+| --- | --- | --- |
+| BAM/DAM (SYSTEM) | `sc.exe` | Source |
+| Shimcache (SYSTEM) | `sc.exe` | Source |
+| Amcache.hve | First Execution time of `sc.exe` | Source |
+| SYSTEM | `\CurrentControlSet\Services\` | Destination |
+| Shimcache (SYSTEM) | `evil.exe` | Destination |
+| Amcache.hve | First Execution time of `evil.exe` | Destination |
+
+### Scheduled Task
+
+| Event Log | Event ID | Computer |
+|---|---|---|
+| Security | 4648 | Source |
+| Security | 4672, 4624, 4698, 4702, 4699, 4700, 4701 | Destination |
+| Task scheduler Operational | 106, 140, 141, 200, 201 | Destination |
+
+| Filesystem | Location | Computer |
+| --- | --- |--- |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\SCHTASKS.EXE-[RANDOM].pf` | Source |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\at.EXE-[RANDOM].pf` | Source |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\TASKENG.EXE-[RANDOM].pf` | Destination |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\evil.EXE-[RANDOM].pf` | Destination |
+| Job files | `C:\Windows\Tasks` | Destination |
+| Task files | `C:\Wmdows\System32\Tasks` | Destination |
+
+| Registry | Findings | Computer |
+| --- | --- | --- |
+| BAM/DAM (SYSTEM) | `at.exe` and `schtasks.exe` | Source |
+| Shimcache (SYSTEM) | `at.exe` and `schtasks.exe`  | Source |
+| Amcache.hve | `at.exe` and `schtasks.exe`  | Source |
+| Shimcache (SYSTEM) | `evil.exe` | Destination |
+| Amcache.hve | First Execution time of `evil.exe` | Destination |
+| SYSTEM | `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\*` | Destination |
 
 ### WMIC
 
 | Event Log | Event ID | Computer |
 |---|---|---|
-| Security | 4688,4624,4656 | Target |
-| WMI Activity Operational | 5857,5859,5860,5861 | Target |
+| Security | 4648 | Source |
+| Security | 4624, 4672 | Destination |
+| WMI Activity Operational | 5857,5860,5861 | Destination |
 
-| Artifact | Location | Computer |
+| Filesystem | Location | Computer |
 | --- | --- |--- |
-| Prefetch | `C:\Windows\Prefetch\WMIC.EXE-[RANDOM].pf` | Source |
-| MFT and USNJ | `C:\Windows\Prefetch\WMIC.EXE-[RANDOM].pf` | Source |
-| Prefetch | `C:\Windows\Prefetch\malware.exe-[RANDOM].pf` | Target |
-| Prefetch | `C:\Windows\Prefetch\scrcons.exe-[RANDOM].pf` | Target |
-| Prefetch | `C:\Windows\Prefetch\mofcomp.exe-[RANDOM].pf` | Target |
-| Prefetch | `C:\Windows\Prefetch\wmiprvse.exe-[RANDOM].pf` | Target |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\WMIC.EXE-[RANDOM].pf` | Source |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\evil.exe-[RANDOM].pf` | Destination |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\scrcons.exe-[RANDOM].pf` | Destination |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\mofcomp.exe-[RANDOM].pf` | Destination |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\wmiprvse.exe-[RANDOM].pf` | Destination |
+| WMI repository | `C:\Windows\System32\wbem\Repository` | Destination |
+| File creation | `evil.exe` or `evil.mof` | Destination |
 
 | Registry | Findings | Computer |
 | --- | --- | --- |
 | Shimcache (SYSTEM) | `Wmic.exe` | Source |
 | BAM/DAM (SYSTEM) | `Wmic.exe` | Source |
 | Amcache.hve | First Execution time of `Wmic.exe` | Source |
-| ShimCache (SYSTEM) | `scrcons.exe`, `mofcomp.exe`, `wmiprvse.exe`, `malware.exe` | Target |
-| AmCache.hve | `scrcons.exe`, `mofcomp.exe`, `wmiprvse.exe`, `malware.exe` | Target |
+| ShimCache (SYSTEM) | `scrcons.exe`, `mofcomp.exe`, `wmiprvse.exe`, `evil.exe` | Destination |
+| AmCache.hve | `scrcons.exe`, `mofcomp.exe`, `wmiprvse.exe`, `evil.exe` | Destination |
 
-### schtasks
+### WinRM and Powershell
 
 | Event Log | Event ID | Computer |
 |---|---|---|
-| Security | 4648, 4689 | Source |
-| Security | 4672, 4624, 4634 | Target |
+| Security | 4648 | Source |
+| WinRM Operational | 6,8,15,16,33 | Source |
+| Powershell Operational | 40691, 40692, 8193, 8194, 8197 | Source |
+| Security | 4624, 4672 | Destination |
+| Powershell Operational | 4103, 4104, 53504 | Destination |
+| Powershell | 400, 403, 800 | Destination |
+| WinRM | 91, 168 | Destination |
 
-| Artifact | Location | Computer |
+| Filesystem | Location | Computer |
 | --- | --- |--- |
-| Prefetch | `C:\Windows\Prefetch\SCHTASKS.EXE-[RANDOM].pf` | Source |
-| MFT and USNJ | `C:\Windows\Prefetch\SCHTASKS.EXE-[RANDOM].pf` | Source |
-| Prefetch | `C:\Windows\Prefetch\TASKENG.EXE-[RANDOM].pf` | Target |
-| MFT and USNJ | `C:\Windows\Prefetch\TASKENG.EXE-[RANDOM].pf` | Target |
-
-| Registry | Findings | Computer |
-| --- | --- | --- |
-| SYSTEM | `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\*` | Target |
-
-### Powershell
-
-| Event Log | Event ID |
-|---|---|
-| Security | 4688 |
-| PowerShell Operational| 1024, 1025, 1026, 1102 |
-| Powershell | 400,403,500,501,600 |
-
-### WinRM
-
-| Event Log | Event ID |
-|---|---|
-| Security | 4688, 4624, 4648, 5985 |
-| WinRM Operational | 6,8,11,13,41,42,44,45,47,48,91,132,169,80,81,82,800,132,134,142,143,145,196 |
-
-| Artifact | Location | Computer |
-| --- | --- |--- |
-| Prefetch | `C:\Windows\Prefetch\powershell.exe-RANDOM.pf` | Source |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\powershell.exe-RANDOM.pf` | Source |
 | Conmand history | `C:\Users\USERNAME\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt` | Source |
-| Prefetch | `C:\Windows\Prefetch\MALWARE.exe-RANDOM.pf` | Target |
-| Prefetch | `C:\Windows\Prefetch\wsmprovhost.exe-RANDOM.pf` | Target |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\evil.exe-RANDOM.pf` | Destination |
+| Prefetch, MFT, USNJ | `C:\Windows\Prefetch\wsmprovhost.exe-RANDOM.pf` | Destination |
 
 | Registry | Findings | Computer |
 | --- | --- | --- |
 | Shimcache (SYSTEM) | `Powershell.exe` | Source |
 | BAM/DAM (SYSTEM) | `Powershell.exe` | Source |
 | Amcache.hve | First Execution time of `Powershell.exe` | Source |
-| ShimCache (SYSTEM) | `wsmprovhost.exe` and `malware.exe` | Target |
-| SOFTWARE | `Microsoft\PowerShell\1\ShellIds\Microsoft.Powershell\ExecutionPolicy` Target |
-| AmCache.hve | `wsmprovhost.exe` and `malware.exe` | Target |
+| ShimCache (SYSTEM) | `wsmprovhost.exe` and `evil.exe` | Destination |
+| SOFTWARE | `Microsoft\PowerShell\1\ShellIds\Microsoft.Powershell\ExecutionPolicy` | Destination |
+| AmCache.hve | `wsmprovhost.exe` and `evil.exe` | Destination |
 
 ### SMB
 
@@ -596,35 +764,17 @@ Below list shows the sum up of the information in the above reference.
 | Security | 4688,4624,4656,5140,5142,5143,5144,5145 | Source |
 | SMB Server Operational | 4100,4103,4104,800,4104,40961,40962 | Source |
 
-### SSH
-| Event Log | Event ID | Computer |
-|---|---|---|
-| Security | 4624,4625,4688, 5154 | Target |
-| System | 10016 | Target |
-
 ### DCOM
-| Event Log | Event ID | Computer |
-|---|---|---|
-| Security | 4624,4662, 4688, 4697, 4698, 4702 | Target |
 
-### Pass-The-Hash
 | Event Log | Event ID | Computer |
 |---|---|---|
-| Security | 4688, 4624, 4648, 4672, 4768,4769, 4776 | Target |
+| Security | 4624,4662, 4688, 4697, 4698, 4702 | Destination |
 
 ### File Transfer
+
 | Event Log | Event ID | Computer |
 |---|---|---|
-| Security | 4688 | Target |
-| Microsoft-Windows-PowerShell/ Operational | 4103, 4104 | Target |
+| Security | 4688 | Destination |
+| Microsoft-Windows-PowerShell/ Operational | 4103, 4104 | Destination |
 
-
-## Other notes
-- Command to parse all registry in a folder using Regripper
-```
-cd folder_containing_all_registries
-for /r %i in (*) do (C:\RegRipper3.0\rip.exe -r %i -a > %i.txt)
-```
-- USB usage also can be investigate using "USB Detective Community Edition"
-- Nirsoft software might have a good tool for viewing your artifacts
-- Reghunter command on the live system: `reg_hunter --all -z --outfile reg_hunter_result.txt`
+### Impacket
