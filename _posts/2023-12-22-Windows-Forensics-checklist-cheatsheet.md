@@ -257,6 +257,7 @@ First, create a spreadsheet that will be the main documentation of your findings
 | 4742 | Security | A Computer Account was Changed |
 | 4768 | Security (DC) | Kerberos TGT request |
 | 4769 | Security (DC) | Kerberos Service Ticket request |
+| 4771 | Security  | Locked Out Account |
 | 4776 | Security  | NTLM authentication |
 | 4778 | Security | Session Reconnected |
 | 4779 | Security | Session Disconnected by User |
@@ -291,12 +292,15 @@ First, create a spreadsheet that will be the main documentation of your findings
 | IDs | Event log | Context |
 | --- | --- | --- |
 | 7045 | System | Service installed |
+| 7034 | System | The service terminated unexpectedly |
 | 7035 | System | Service Control Manager |
 | 7036 | System | Service State Change |
+| 7040 | System | Service was changed from disabled to auto start.  |
 | 7001 | System | Service Start Failed |
 | 1001 | System | BSOD |
 | 6005 | System | Start-up time of the machine	|
 | 6006 | System | Shutdown time of the machine |
+| 104 | System | Log cleared |
 | 59 | MicrosoftWindows Bits Client/operational | Bits Jobs |
 | 2004 | Microsoft-Windows-Windows Firewall with Advanced Security | Rule has been added to the Window Firewall exception list |
 | 2006 | Microsoft-Windows-Windows Firewall with Advanced Security | Deleted firewall rule |
@@ -312,8 +316,14 @@ First, create a spreadsheet that will be the main documentation of your findings
 | 800 | Windows PowerShell | Pipeline execution |
 | 1000 | Application | Application Error/crash |
 | 1001 | Application | Application Error reporting |
+| 1002 | Application | Application Hang |
 | 1024 | Application | Software Installation |
 | 1040 | Application | User Initiated Software Installation |
+| 1033 | Application | Software installed |
+| 1034 | Application | Windows Installer removed the product |
+| 11707 | Application | Installation operation completed successfully |
+| 11708 | Application | Installation failed |
+| 11724 | Application | Installation completed successfully |
 | 1 | Microsoft-Windows-Sysmon/Operational | Process Creation |
 | 2 | Microsoft-Windows-Sysmon/Operational | A process changed a file creation time |
 | 3 | Microsoft-Windows-Sysmon/Operational | Network connection detected |
@@ -327,6 +337,17 @@ First, create a spreadsheet that will be the main documentation of your findings
 | 21 | Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational | RDP Session logon succeeded |
 | 24 | Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational | RDP Session has been disconnected  |
 | 25 | Microsoft-Windows-TerminalServices-RemoteConnectionManager%4Operational | RDP Session reconnection succeeded |
+| 131 | RDPCoreTS | RDP connection is first established |
+| 106 | Task Scheduler | New scheduled task is created |
+| 140 | Task Scheduler | New scheduled task is created |
+| 141 | Task Scheduler | User deleted Task Scheduler task |
+| 200 | Task Scheduler | Task executed |
+| 201 | Task Scheduler | Task scheduler successfully completed the task |
+| 5857 | WMI-Activity Operational | WMI activity is detected  |
+| 5858 | WMI-Activity Operational | WMI error |
+| 5859 | WMI-Activity Operational | Subscription-based activity |
+| 5860 | WMI-Activity Operational | Detailed subscription-based activity |
+| 5861 | WMI-Activity Operational | Permanent subscription activity |
 
 Event ID KB: https://system32.eventsentry.com/ and https://www.myeventlog.com/search/browse
 
