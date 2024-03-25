@@ -53,16 +53,6 @@ header:
 
   - titles:
       # @start locale config
-      en      : &EN       BuyMeACoffee ☕
-      en-GB   : *EN
-      en-US   : *EN
-      en-CA   : *EN
-      en-AU   : *EN
-      # @end locale config
-    url: https://www.buymeacoffee.com/fareedfauzi
-
-  - titles:
-      # @start locale config
       en      : &EN       GitBooks 📘
       en-GB   : *EN
       en-US   : *EN
