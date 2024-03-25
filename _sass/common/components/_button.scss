@@ -20,11 +20,11 @@
 }
 
 .button--primary {
-  @include clickable($text-color-theme-light, $main-color-theme-dark);
+  @include clickable($text-color-theme-light, #ff006a);
 }
 
 .button--secondary {
-  @include clickable($text-color-3, $main-color-3);
+  @include clickable($text-color-theme-light, #ff006a);
 }
 
 .button--success {
@@ -102,7 +102,7 @@
 .button--pill {
   border-radius: map-get($button, pill-radius);
   @extend .button--md;
-  color: #fff;
+  @include clickable($text-color-theme-light, #ff006a);
 }
 
 .button--rounded {
@@ -116,7 +116,7 @@
   @include align-items(center);
   border-radius: 50%;
   @extend .button--md;
-  color: #fff;
+  @include clickable($text-color-theme-light, #ff006a);
 }
 
 .button--md {
