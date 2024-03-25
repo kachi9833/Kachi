@@ -20,7 +20,7 @@
 }
 
 .button--primary {
-  @include clickable($text-color-3, $main-color-2);
+  @include clickable($text-color-theme-light, $main-color-theme-dark);
 }
 
 .button--secondary {
@@ -48,7 +48,7 @@
 }
 
 .button--theme-dark {
-  @include clickable($text-color-3, $main-color-2);
+  @include clickable($text-color-theme-light, $main-color-theme-dark);
 }
 
 .button--outline-primary {
