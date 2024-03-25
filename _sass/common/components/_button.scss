@@ -48,7 +48,7 @@
 }
 
 .button--theme-dark {
-  @include clickable($text-color-theme-light, $main-color-theme-dark);
+  @include clickable($text-color-3, $main-color-2);
 }
 
 .button--outline-primary {
@@ -102,7 +102,6 @@
 .button--pill {
   border-radius: map-get($button, pill-radius);
   @extend .button--md;
-  @include clickable($text-color-3, $main-color-2);
 }
 
 .button--rounded {
