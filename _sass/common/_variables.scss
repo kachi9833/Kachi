@@ -148,3 +148,14 @@ $menu: (
   horizontal-spacer: 1,
   horizontal-item-vertical-spacer: 1
 );
+
+/* Define Retro Gaming font */
+@font-face {
+  font-family: 'Retro Gaming';
+  src: url('/RetroGaming.ttf') format('truetype');
+}
+
+/* Apply Retro Gaming font to headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Retro Gaming', sans-serif;
+}
