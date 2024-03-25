@@ -3,13 +3,13 @@
     margin: 0;
     & > li > {
       .mail-button {
-        @include clickable($text-color-1, $mail-color);
+        @include clickable($text-color-1, #fff);
       }
       .facebook-button {
-        @include clickable($text-color-1, $facebook-color);
+        @include clickable($text-color-1, #fff);
       }
       .twitter-button {
-        @include clickable($text-color-1, $twitter-color);
+        @include clickable($text-color-1, #fff);
       }
       .weibo-button {
         @include clickable($text-color-1, $weibo-color);
@@ -30,10 +30,10 @@
         @include clickable($text-color-1, $douban-color);
       }
       .linkedin-button {
-        @include clickable($text-color-1, $linkedin-color);
+        @include clickable($text-color-1, #fff);
       }
       .github-button {
-        @include clickable($text-color-1, $github-color);
+        @include clickable($text-color-1, #fff);
       }
       .npm-button {
         @include clickable($text-color-1, $npm-color);
