@@ -25,7 +25,7 @@
     color: $text-color-theme-dark-l;
   }
   a:not(.button) {
-    @include link-colors($text-color-theme-dark, $main-color-1);
+    @include link-colors($text-color-theme-dark, #fff);
   }
 }
 
