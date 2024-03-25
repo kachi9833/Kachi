@@ -20,11 +20,11 @@
 }
 
 .button--primary {
-  @include clickable($text-color-theme-light, #ff9500);
+  @include clickable($text-color-theme-dark, #ff9500);
 }
 
 .button--secondary {
-  @include clickable($text-color-theme-light, #ff006a);
+  @include clickable($text-color-theme-dark, #ff006a);
 }
 
 .button--success {
