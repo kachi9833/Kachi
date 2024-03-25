@@ -5,8 +5,8 @@
 ///
 
 // main colors
-$main-color-1:     #8800ff;
-$text-color-1:     rgba(#fff, .8);
+$main-color-1:     #a43ffc;
+$text-color-1:     rgba(#a43ffc, .8);
 
 $main-color-2:     #ff006a;
 $text-color-2:     rgba(#fff, .8);
@@ -36,7 +36,7 @@ $text-color-l:     $text-color-theme-dark-l;
 $text-background-color: rgba(#fff, .05);
 
 // header and footer colors
-$header-text-color: $text-color-3;
+$header-text-color: $text-color-1;
 $header-background: $main-color-3;
 
 $footer-text-color: $text-color-3;
