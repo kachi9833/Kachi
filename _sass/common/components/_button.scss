@@ -102,6 +102,7 @@
 .button--pill {
   border-radius: map-get($button, pill-radius);
   @extend .button--md;
+  color: #fff;
 }
 
 .button--rounded {
@@ -115,6 +116,7 @@
   @include align-items(center);
   border-radius: 50%;
   @extend .button--md;
+  color: #fff;
 }
 
 .button--md {
