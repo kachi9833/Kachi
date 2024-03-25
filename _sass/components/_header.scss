@@ -121,3 +121,16 @@
     @include split-line(bottom, 4px, $main-color-1);
   }
 }
+
+/* Define videogame font */
+@font-face {
+  font-family: 'RetroGaming';
+  src: url('/RetroGaming.ttf') format('truetype');
+}
+
+/* Apply videogame font to header elements */
+.header,
+.header__title,
+.header__brand > a {
+  font-family: 'RetroGaming', sans-serif;
+}
