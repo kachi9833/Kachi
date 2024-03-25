@@ -102,7 +102,6 @@
 .button--pill {
   border-radius: map-get($button, pill-radius);
   @extend .button--md;
-  @include clickable($text-color-theme-light, #ff006a);
 }
 
 .button--rounded {
@@ -116,7 +115,6 @@
   @include align-items(center);
   border-radius: 50%;
   @extend .button--md;
-  @include clickable($text-color-theme-light, #ff006a);
 }
 
 .button--md {
