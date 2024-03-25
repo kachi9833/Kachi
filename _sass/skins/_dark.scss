@@ -37,17 +37,17 @@ $text-background-color: rgba(#fff, .05);
 
 // header and footer colors
 $header-text-color: #ffffff;
-$header-background: linear-gradient(135deg, rgba(34, 139, 87 , .4), rgba(139, 34, 139, .4));;
+$header-background: linear-gradient(135deg, rgba(34, 139, 87 , .4), rgba(139, 34, 139, .4));
 
-$footer-text-color: $text-color-3;
-$footer-background: $main-color-3;
+$footer-text-color: #ffffff;
+$footer-background: linear-gradient(135deg, rgba(34, 139, 87 , .4), rgba(139, 34, 139, .4));;
 
 // border and shadow colors
 $border-color:     mix(#fff, $background-color, 20%);
 $border-color-l:   mix(#fff, $background-color, 10%);
 $decorate-color:   rgba(#fff, .1);
 $mask-color:       rgba(#000, .9);
-$select-color:     rgba($main-color-1, .5);
+$select-color:     rgba(#fff, .5);
 
 // function colors
 $green:           #5baa34;
