@@ -16,7 +16,7 @@
 @mixin text-dark {
   color: $text-color-theme-dark;
   h1, h2, h3 {
-    color: #a43ffc;
+    color: $text-color-theme-dark-d;
   }
   h4, h5 {
     color: $text-color-theme-dark;
