@@ -20,7 +20,7 @@
 }
 
 .button--primary {
-  @include clickable($text-color-theme-light, #ff006a);
+  @include clickable($text-color-theme-light, #ff9500);
 }
 
 .button--secondary {
