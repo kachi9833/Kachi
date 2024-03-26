@@ -220,4 +220,11 @@
       font-weight: map-get($base, font-weight-bold);
     }
   }
+  text-align: justify;
+
+  /* Center images */
+  img:not(.emoji) {
+    display: block; /* Ensures images are centered properly */
+    margin: 0 auto; /* Centers images horizontally */
+  }
 }
