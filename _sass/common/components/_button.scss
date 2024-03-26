@@ -18,7 +18,6 @@
 .button {
   @include button();
 }
-
 .button--primary {
   @include clickable($text-color-theme-dark, #30ffc9);
 }
