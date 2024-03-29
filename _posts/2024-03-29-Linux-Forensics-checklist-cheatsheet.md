@@ -3,22 +3,94 @@ title:  "Checklist and Cheatsheet: Linux Forensics Analysis"
 tags: DFIR
 ---
 
-Linux can be hack as large numbers of web and DB servers run under Linux OS. In this Checklist and Cheatsheet, I'll list all possible approach to response against Linux machine that have been compromised.
+In this Checklist and Cheatsheet, I'll list all possible approach to response against Linux machine that have been compromised by an attacker.
 
-# Live Response
-Oftenly review for anomalous behaviour and to verify compromised.
+# Disk acquisition and analysis
+Analyst collect digital disk image of the Linux system to perform disk analysis offline. This activity is required to find any suspicious files and folders, recover files and to extract artifacts (triage) from the disk
 
-## General
+## Disk imaging
 ```
+# Verify which disk device that we want to perform the disk imaging
+lsblk
+fdisk -l
+
+# Perform disk imaging into the external disk or shared folder
+# Change "sdb" to your disk device letter
+dd if=/dev/sdb of=/media/sf_tmp/linux_forensic.img
+# OR
+dcfldd if=/dev/sdb of=/media/sf_tmp/linux_forensic.img hash=sha256 hashwindow=1M hashlog=/media/sf_tmp/linux_forensic.hash
+```
+
+## Disk analysis
+Analyst can perform disk analyst using:
+1. Autopsy
+2. FTK Imager
+3. Linux distro such as Tsurugi, SIFT or REMNUX (Need to mount the disk image first)
+
+# Memory acquisition and analysis
+Memory acquisition and memory analysis is quite bit rare in Linux forensics as most of the analyst rely on live response actions and commands. To perform memory acquisition, we going to use LIME.
+
+## Memory acquisition using LIME
+```
+# In the target machine, run this command to verify the kernel version
+uname -r
+
+# Using other machine with the same kernel version, git clone, and compile the source. It will generate .ko file.
+git clone https://github.com/504ensicsLabs/LiME.git
+cd LiME/src; sudo make
+
+# Copy the .ko file into the target machine using SCP or Netcat
+
+# In the target machine, run this command to generate memory dump
+sudo insmod lime-$(uname -r).ko "path=/media/sf_tmp/mem.lime format=lime"
+```
+
+## Memory analysis with Volatility
+```
+# Install volatility
+sudo git clone https://github.com/volatilityfoundation/volatility3.git
+cd volatility3/
+apt install python3-pip
+pip3 install -r requirements-minimal.txt
+python3 vol.py -f /media/sf_tmp/mem.lime banners
+
+# Build Linux profile
+TODO
+```
+
+# Triage collection
+Collect important triage files for quick investigation
+```
+git clone https://github.com/WithSecureLabs/LinuxCatScale.git
+cd LinuxCatScale
+./Cat-Scale.sh
+./Extract-Cat-Scale.sh
+```
+
+# Live response commands
+These commands oftenly used to review for anomalous behaviour and to verify compromised.
+
+## General information
+The first thing we are going to do is collect important information regarding the server that we will analyze.
+```
+# Display current date and time. Verify the timezone.
 date
+
+# System information
 uname -a
-hostname
-ifconfig -a
-cat /etc/lsb-release
-cat /var/log/kern.log | grep -i "Linux version"
+
+# Network information
+ifconfig
+
+# Display distro version
+cat /etc/*-release
+
+# Date of installation of the OS
+ls -ld /var/log/installer
 ```
 
 ## Logon activities
+Then, we proceed to review the logon activities of the compromised host.
 ```
 w
 lastlog
@@ -33,15 +105,22 @@ last -Faiwx
 ```
  
 ## Review processes
+Review all running processes and its command could identify malicious process
 ```
 htop
 ps -aux
 lsof -p <PID>
 ls /proc/<PID>
 cat /proc/<PID>
+
+# Recover deleted process's binary
+cd /proc/1234/
+head -1 maps
+dd if=mem bs=1 skip=ADDRESS count=1000 of=/tmp/recovered_proc_file
 ```
 
 ## Review network
+Investigate any malicious connection and unexpected IP address
 ```
 netstat -antup
 netstat -rn
@@ -51,11 +130,22 @@ cat /
 ```
 
 ## Review activities
+Investigate the executed command by the attacker and user could give nice context about the incident
 ```
 history
-cat /home/$USER/.history
-cat /root/.history
+cat /home/$USER/.*_history
+cat /home/$USER/.bash_history
+cat /root/.bash_history
 grep -v cron /var/log/auth.log* | grep -i -e "command=" -e "su:" -e "groupadd" -e "useradd" -e "passwd"
+cat /root/.mysql_history
+ls /home/$USER/.mozilla/firefox 
+ls /home/$USER/.config/google-chrome
+cat /home/$USER/.viminfo
+cat /home/$USER/.ftp_history
+cat /home/$USER/.sftp_history
+cat /home/$USER/.lesshst
+cat /home/$USER/.gitconfig
+ls /home/$USER/.git/logs
 ```
 
 ## Hunting unusual files
@@ -66,9 +156,30 @@ find / -size +10000k –print
 ls -lai /usr/bin | sort -n
 find /lib /usr/bin /usr/sbin -type f -newermt "$(date -d '10 days ago' +'%Y-%m-%d')"
 find / -type f -mtime -1 -print
+ls -laR --sort=time /bin
+find / -user root -perm -04000 -print
+ls /dev
 ```
 
-## Persistent
+## Installed programs
+```
+cat /var/log/apt/history.log | grep "Commandline"
+cat /var/lib/dpkg/status | grep -E "Package:|Status:"
+cat /var/log/dpkg.log | grep installed
+find /sbin/ -exec dpkg -S {} \; | grep "no path found"
+ls /usr/sbin /usr/bin /bin /sbin
+ls /var/cache/apt/archives
+```
+
+## File investigation
+```
+stat <filename>
+file <filename>
+strings <filename>
+md5sum <filename> # submit to VT
+```
+
+## Persistent mechanisms
 ### Review account
 ```
 cat /etc/passwd | grep bash
@@ -78,7 +189,9 @@ cat /etc/shadow
 cat /etc/groups
 cat /etc/sudoers
 cat /etc/sudoers.d/
-cat /home/$USER/authorized_keys
+cat /home/$USER/.ssh/authorized_keys
+cat /home/$USER/.ssh/known_hosts
+cat /home/$USER/.recently-used.xbel 
 ```
 
 ### Webshell
@@ -162,77 +275,56 @@ free
 df
 ```
 
-# Triage collection
+# Compromised assestment scanning
 ```
-git clone https://github.com/WithSecureLabs/LinuxCatScale.git
-cd LinuxCatScale
-./Cat-Scale.sh
-./Extract-Cat-Scale.sh
-```
-
-# Scanner
-```
-apt install chkrootkit && chkrootkit
-
 # Download Thor Lite and the license from Nextron website
 cd thorlite/
 ./thor-lite-util update
 ./thor-lite-linux-64
 ```
 
-# Disk acquisition
-```
-lsblk
-fdisk -l
-dd if=/dev/<DISK DEVICE> of=/media/sf_tmp/linux_forensic.img
-```
-
-# Memory acquisition
-TODO
-
 # Log analysis
-### System
+Tool such as SIEM, or CA scanner could speed up analysis of the log analysis
 ```
+# System log
 /var/log/syslog
 /var/log/kern.log
 /var/log/dmesg
-```
 
-### Web
-```
-/var/logs/apache2/access.log*
+# Web
+# Analyze the web based on attack, CVE, exploit context
+/var/logs/apache2/access.log* # Try using goaccess
 /var/log/httpd/
-```
 
-### SQL
-```
+# SQL
 /var/log/mysqld.log
 /var/log/mysql.log
-/root/.mysql_history
-```
 
-### Cron
-```
+# Cron
 /var/log/cron
-```
 
-### Services
-```
+# Services
 /var/log/daemon.log
-```
 
-### Authentication
-```
+# Authentication
 /var/log/auth.log
 /var/log/secure
-```
 
-### Mail
-```
+#Mail
 /var/log/mail*
-```
 
-### FTP
-```
+# FTP
 /var/log/xferlog
 ```
+
+# File recovery
+TODO
+
+# Hunting rootkit
+TODO
+```
+apt install chkrootkit && chkrootkit
+```
+
+# Timeline analysis
+TODO
