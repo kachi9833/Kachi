@@ -156,8 +156,12 @@ $menu: (
 }
 
 /* Apply Retro Gaming font to headings */
-h1, h2, h3, h4, h5, h6 {
+h1 {
   font-family: 'Retro Gaming', sans-serif;
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: 'Fira Code', sans-serif;
 }
 
 .highlight code {
