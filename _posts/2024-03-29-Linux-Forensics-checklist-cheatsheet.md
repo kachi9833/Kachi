@@ -473,6 +473,9 @@ df
 ```
 
 ## Compromised assestment scanning
+Using a CA scanner with the capability of YARA and SIGMA detection significantly speeds up our hunt for malicious and suspicious files in compromised systems. Running this scanner can save a considerable amount of time and proves to be invaluable during DFIR investigations.
+
+### THOR Lite
 THOR is a portable scanner to detect attacker tools and activity on suspicious or compromised server systems. We can use this free tool to scan our compromised hosts.
 
 Download: https://www.nextron-systems.com/thor-lite/
@@ -580,7 +583,7 @@ dd if=/dev/sdb of=/media/sf_tmp/linux_forensic.img
 dcfldd if=/dev/sdb of=/media/sf_tmp/linux_forensic.img hash=sha256 hashwindow=1M hashlog=/media/sf_tmp/linux_forensic.hash
 ```
 
-### Memory acquisition using LIME
+## Memory acquisition
 Memory acquisition and memory analysis is quite bit rare in Linux forensics as most of the analyst rely on live response actions and commands. To perform memory acquisition, we going to use LIME.
 ```
 # In the target machine, run this command to verify the kernel version
