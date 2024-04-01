@@ -114,7 +114,8 @@ lsof -p <PID>
 ls /proc/<PID>
 cat /proc/<PID>
 ```
-| File/Directory in /proc/PID | Description                                               |
+
+| File/Directory in /proc/PID | Description |
 |----------------|-----------------------------------------------------------|
 | cmdline        | Command-line arguments passed to the process              |
 | cwd            | Symbolic link to the current working directory of the process |
