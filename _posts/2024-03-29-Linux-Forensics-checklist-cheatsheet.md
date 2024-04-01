@@ -626,6 +626,10 @@ Analyst can perform disk analyst using:
 2. FTK Imager
 3. Linux distro such as Tsurugi, SIFT or REMNUX (Need to mount the disk image first)
 
+### Directories and Files Analysis
+```
+TODO
+```
 ### Log analysis
 Tool such as SIEM, or CA scanner could speed up analysis of the log analysis. Tool named `goaccess` can be use against access.log
 
