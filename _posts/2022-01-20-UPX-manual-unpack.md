@@ -1,6 +1,8 @@
 ---
 title:  "UPX manual unpack: ELF and EXE"
-tags: Reverse-Engineering
+tags: 
+- Reverse-Engineering
+- Malware
 ---
 
 # Introduction
