@@ -1,8 +1,8 @@
 ---
-title:  "Cheat-Sheet: Windows Forensics Analysis"
+title:  "Cheatsheet: Windows Forensics Analysis"
 tags: 
 - DFIR
-- Cheat-Sheet
+- Cheatsheet
 ---
 
 During a Windows Forensics engagement, I occasionally find myself forgetting essential tasks or unintentionally skipping analyzing importants artifacts. Therefore, this checklist (along with cheatsheet) could help myself (or readers) and ensure that I adhere to a systematic workflow when conducting Windows Forensics.
