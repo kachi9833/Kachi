@@ -1,7 +1,8 @@
 ---
-title: "Backdoor CTF Practice Arena: RE Challenges Walktrough"
+title: "Writeup: Backdoor CTF Practice Arena Reversing Challenge"
 tags:
 - Reverse-Engineering
+- Writeup
 ---
 
 Below are the few reverse engineering category's challenges that I've been solved. It was a pretty easy challenge to solve.
