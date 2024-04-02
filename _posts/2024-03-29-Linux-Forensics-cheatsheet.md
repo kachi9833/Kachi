@@ -40,7 +40,8 @@ Understanding the incident with questions like this:
 - How are these systems set up?
 - What have you done to fix it?
 
-## Linux-CatScale: Live response and triage script
+## Live response and triage script
+### Linux-CatScale
 For more information about what the script collects, please refer to https://labs.withsecure.com/tools/cat-scale-linux-incident-response-collection.
 ```
 git clone https://github.com/WithSecureLabs/LinuxCatScale.git
@@ -51,6 +52,56 @@ cd LinuxCatScale
 After running the script and extract the collected evidence, we can proceed investigate the triage data in text editor such as VS Code. Figure below shows the result of command `lastlog` collect by Linux-CatScale.
 
 ![image](https://github.com/fareedfauzi/fareedfauzi.github.io/assets/56353946/8669bd9a-9971-4213-b06a-fb40a8f2e89a)
+
+### UAC
+Another Live Response collection script to perform live response.
+```
+user@training:~/uac$ git clone https://github.com/tclahr/uac.git
+user@training:~/uac$ sudo ./uac -p full /tmp
+[sudo] password for user:
+--------------------------------------------------------------------------------
+  __   __ _______ _______
+ |: | |  |:  _   |:  ____|
+ |  |_|  |  | |  |  |____
+ |_______|__| |__|_______|
+
+ Unix-like Artifacts Collector 2.8.0
+--------------------------------------------------------------------------------
+Operating System    : linux
+System Architecture : x86_64
+Hostname            : training
+Mount Point         : /
+Running as          : root
+Temp Directory      : /tmp/uac-data.tmp
+--------------------------------------------------------------------------------
+Artifacts collection started...
+[001/301] 2024-04-02 01:22:10 +0000 live_response/process/ps.yaml
+[002/301] 2024-04-02 01:22:11 +0000 live_response/process/lsof.yaml
+[003/301] 2024-04-02 01:22:11 +0000 live_response/process/top.yaml
+```
+
+### Fennec
+fennec is an artifact collection tool written in Rust to be used during incident response on *nix based systems. Basically, the tool used osquery to perform the triage collection as we can see in this conf file https://github.com/AbdulRhmanAlfaifi/Fennec/blob/master/deps/linux/fennec.yaml.
+
+```
+user@training:~$ wget https://github.com/AbdulRhmanAlfaifi/Fennec/releases/download/v0.4.1/fennec_linux_x86_64
+user@training:~$ sudo ./fennec_linux_x86_64 -o training.zip --output-format csv
+
+        ______
+        |  ___|
+        | |_ ___ _ __  _ __   ___  ___
+        |  _/ _ \ '_ \| '_ \ / _ \/ __|
+        | ||  __/ | | | | | |  __/ (__
+        \_| \___|_| |_|_| |_|\___|\___|
+        v0.4.1
+
+2024-04-02 00:56:28 [fennec:418] INFO  Started Fennec 0.4.1
+2024-04-02 00:56:28 [fennec:491] INFO  Successfuly wrote '16117820' bytes to osquery file './osqueryd'
+2024-04-02 00:56:28 [fennec:347] INFO  Start writing the results for the artifact 'authorized_keys' to 'authorized_keys.csv'
+2024-04-02 00:56:28 [fennec:358] INFO  Executing the osquery SQL query 'select * from authorized_keys' for the artifact 'authorized_keys'
+```
+
+Please refer https://github.com/AbdulRhmanAlfaifi/Fennec for more information.
 
 ## Live response commands
 These commands can be used to review anomalous behavior and verify compromise in real-time action. Some of the commands, such as `cat /var/www/html/webshell.php`, can also be used to perform post-compromise disk analysis, where we only need to supply the full path of the mounted compromised disk, for example, `cat /media/compromised_disk/var/www/html/webshell.php`.
@@ -115,6 +166,9 @@ lsof -p <PID>
 # Directories that contains information about a specific process
 ls /proc/<PID>
 cat /proc/<PID>
+
+# Show process in tree view
+pstree -a
 ```
 
 | File/Directory in /proc/PID | Description |
@@ -276,6 +330,9 @@ md5sum <filename> # submit to VT
 
 ### Persistent mechanisms
 Persistent mechanism is a methods used by attackers to maintain access to a compromised system across reboots or to ensure their malicious activities persist over time. Below is the potential list of the places attacker might add or modify to deploy their persistent access.
+
+![image](https://github.com/fareedfauzi/fareedfauzi.github.io/assets/56353946/7b110242-933b-4e81-a937-9c5747543632)
+Source: https://pberba.github.io/assets/posts/common/20220201-linux-persistence.png
 
 #### Review account
 Review user account information and activity on the system to iidentify potentially active user accounts, detect anomalies in user account configurations, find files belonging to non-existent users, extract password hashes for analysis, examine group information for privilege analysis, review sudo configurations for potential privilege escalation, investigate SSH authentication keys and known hosts for unauthorized access, and analyze recently used files for user activity.
@@ -629,11 +686,43 @@ Analyst can perform disk analyst using:
 3. Linux distro such as Tsurugi, SIFT or REMNUX (Need to mount the disk image first)
 
 ### Directories and Files Analysis
-```
-TODO
-```
+
+#### Directory
+All directories from `/` to `/tmp` are crucial as well. Reviewing all the files in the system is a must to ensure we find all possible findings.
+
+But, what should we look at mostly during DFIR?
+
+**/var/log**
+- Like Windows event logs in Windows OS
+- Security logs, application logs, etc
+
+**/home/$USER**
+- Like `%USERPROFILE%` in Windows OS
+- User data and user configuration information
+
+**/etc**
+- Like `%SystemRoot%/System32/config` (Registry) in Windows OS
+- Primary system configuration directory
+- Separate configuration files/dirs for each app
+
+![image](https://github.com/fareedfauzi/fareedfauzi.github.io/assets/56353946/d7e2f6b8-8f5e-4be6-be9d-bc4a1f503432)
+Source image: https://computingforgeeks.com/understanding-the-linux-file-system-hierarchy/
+
+#### File Analysis
+Always check the content of the file, MAC time, and INODE file such as below figure
+
+![Snipaste_2024-03-22_15-26-13](https://github.com/fareedfauzi/fareedfauzi.github.io/assets/56353946/34fd7fe4-c85d-4edb-bf7b-114062b32e36)
+
+Identify if it a malware or not by:
+1. Lookup hash in VT
+2. strings command
+3. Upload binary in VT (sensitive)
+4. Upload binary in local sandbox
+5. Reverse engineering
+6. Dynamic analysis in malware lab
+
 ### Log analysis
-Tool such as SIEM, or CA scanner could speed up analysis of the log analysis. Tool named `goaccess` can be use against access.log
+Tool such as SIEM, or CA scanner could speed up analysis of the log analysis.
 
 | Log File                  | Purpose of Analysis                                      |
 |---------------------------|----------------------------------------------------------|
@@ -651,6 +740,21 @@ Tool such as SIEM, or CA scanner could speed up analysis of the log analysis. To
 | /var/log/mail*            | Analyze mail server logs for email activity              |
 | /var/log/xferlog          | Investigate FTP server logs for file transfer activity   |
 
+#### Access.log
+Examining access.log content:
+```
+192.168.0.164 - - [15/Mar/2024:08:33:33 +0000] "GET /wordpress/wp-admin/css/forms.min.css?ver=6.4.3 HTTP/1.1" 200 6874 "http://192.168.0.172/wordpress/wp-admin/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+```
+
+- `192.168.0.164` = IP address of the client (remote host) that made the request to the server
+- `[15/Mar/2024:08:33:33 +0000]` = Date and time when the request was received
+- `GET /wordpress/wp-admin/css/forms.min.css?ver=6.4.3 HTTP/1.1` = HTTP Request
+- `200` = HTTP status code
+- `6874` = Response Size
+- `http://192.168.0.172/wordpress/wp-admin/install.php` = Web page that referred the client to the requested URL
+- `Mozilla/5.0 …` = User-Agent
+
+We can use external tool such as `goaccess` to briefly analyze access.log.
 
 ### File recovery
 Using sleauth kit
