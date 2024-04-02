@@ -1,8 +1,8 @@
 ---
-title: "Cheat-Sheet: Malicious Document Analysis"
+title: "Cheatsheet: Malicious Document Analysis"
 tags: 
 - Malware
-- Cheat-Sheet
+- Cheatsheet
 ---
 
 # OneNote Analysis
