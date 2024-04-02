@@ -1,7 +1,7 @@
 ---
 title: "Build Malicious CHM (Help) file"
 tags:
-- Malicious-CHM
+- Malware
 ---
 
 
