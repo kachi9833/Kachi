@@ -1,5 +1,5 @@
 ---
-title:  "Checklist and Cheatsheet: Linux Forensics Analysis"
+title:  "Cheatsheet: Linux Forensics Analysis"
 tags: DFIR
 ---
 
