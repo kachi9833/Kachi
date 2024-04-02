@@ -1,8 +1,8 @@
 ---
-title: "Writeup: Cynet Incident Response Challenge"
+title: "Write-up: Cynet Incident Response Challenge"
 tags: 
 - DFIR
-- Writeup
+- Write-up
 ---
 
 Hello everyone. Cynet conducted a CTF DFIR-based where particapted user can test their own skills in Digital Forensics and Incident Response.
