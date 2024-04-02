@@ -1,6 +1,8 @@
 ---
 title:  "Yet another Malicious Android Apps targeting Malaysian"
-tags: APK
+tags: 
+- APK
+- Malware
 ---
 
 In this post, we will be discussing a disturbing new trend in malicious Android apps that have been targeting users in Malaysia. These apps, which have been disguised as legitimate services such as Cleaning service, have been found to contain SMS stealer and banking credential phishing capabilities, putting the sensitive information of their victims at risk.
