@@ -1,6 +1,8 @@
 ---
 title:  "Building Offensive Malicious Documents"
-tags: Malicious-Document
+tags: 
+- Malicious-Document
+- Malware
 ---
 
 Generally, the attacker will use the below techniques in leveraging Microsoft Office features and vulnerabilities:
