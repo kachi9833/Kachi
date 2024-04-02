@@ -1,6 +1,6 @@
 ---
 title: Powershell 101 in Malware Analysis
-tags: Malware-Analysis
+tags: Malware
 ---
 
 PowerShell attacks are currently the popular weapon of alternative for several of those attacks as a result of it provides variety of techniques for bypassing existing security. Not least of all, the flexibility to run directly in memory and remotely download payloads gave a lot of benefits to attacker.
