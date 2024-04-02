@@ -1,6 +1,6 @@
 ---
 title:  "Lemon-Duck Powershell: An easy way to deobfuscate it!"
-tags: Malware-Analysis
+tags: Malware
 ---
 
 I came across a fileless malware called Lemon-Duck crypto miner during our (my officemate and I) investigation on suspicious communication in our client network. This malware completely leveraging the PowerShell module to execute most of their payloads.
