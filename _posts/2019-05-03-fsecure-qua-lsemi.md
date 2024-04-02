@@ -1,7 +1,8 @@
 ---
-title: "F-Secure 2019 Qualification and Semi Final: Write-up"
+title: "Write-up: F-Secure 2019 Qualification and Semi Final"
 tags:
 - Reverse-Engineering
+- Write-up
 ---
 
 Welcome back guys. Today I'm gonna do reverse engineering and steganograpy challenges from FSecure2019.
