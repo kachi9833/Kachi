@@ -1,6 +1,8 @@
 ---
-title:  "Cheatsheet: Linux Forensics Analysis"
-tags: DFIR
+title:  "Cheat-Sheet: Linux Forensics Analysis"
+tags: 
+- DFIR
+- Cheat-Sheet
 ---
 
 Linux Forensic in a nutshell:
