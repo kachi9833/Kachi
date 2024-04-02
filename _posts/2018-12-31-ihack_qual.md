@@ -1,7 +1,8 @@
 ---
-title: "i-Hack 2018 Qualification: Reverse and Pwn Write-up"
+title: "Writeup: UiTM iHack 2018 Qualification Reverse and Pwn Challenges"
 tags:
 - Reverse-Engineering
+- Writeup
 ---
 
 This write-up are focus on reverse engineering and pwn category for i-Hack 2018 Qualification.
