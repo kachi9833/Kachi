@@ -837,6 +837,11 @@ Examining access.log content:
 
 We can use external tool such as `goaccess` to briefly analyze access.log.
 
+### Privilege escalation hunting ideas
+```
+TODO
+```
+
 ### File recovery
 Using sleauth kit
 ```
