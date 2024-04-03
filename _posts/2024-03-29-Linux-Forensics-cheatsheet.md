@@ -112,17 +112,25 @@ The first thing we are going to do is collect important information regarding th
 # Display current date and time. Verify the timezone.
 date
 
+# Timezone information
+cat /etc/timezone
+
 # System information
 uname -a
 
 # Network information
 ifconfig
+cat /etc/network/interfaces
 
 # Display distro version
 cat /etc/*-release
 
 # Date of installation of the OS. Check the date
 ls -ld /var/log/installer
+
+# Display hostname
+hostname
+cat /etc/hostname
 ```
 
 ### Logon activities
@@ -211,7 +219,7 @@ netstat -antup
 netstat -rn
 route
 
-# Maps IP addresses to hostnames
+# Check static DNS lookups
 cat /etc/hosts
 ```
 
@@ -340,6 +348,8 @@ Review user account information and activity on the system to iidentify potentia
 ```
 # Identify potentially active user accounts
 cat /etc/passwd | grep bash
+cat /etc/passwd | grep sh
+cat /etc/passwd | grep dash
 
 # Sort user accounts by their UID to detect anomalies
 sort -nk3 -t: /etc/passwd
@@ -758,13 +768,17 @@ PID	Process	CommandTime	Command
 14100	bash	2024-04-01 03:05:59.000000 	sudo apt install dwarfdump
 ```
 
-
-
 ## Disk analysis
-Analyst can perform disk analyst using:
+Analyst can perform disk analysis using several tools such as:
 1. Autopsy
-2. FTK Imager
-3. Linux distro such as Tsurugi, SIFT or REMNUX (Need to mount the disk image first)
+2. Sleauthkit commands
+3. FTK Imager
+4. elf-tools commands
+5. Linux distro such as Tsurugi, SIFT or REMNUX (Need to mount the disk image first)
+
+```
+Note: If Autopsy or Sleauth-kit can open the disk partition, convert the image file into E01 using FTK Imager ("Export Disk Image")
+```
 
 ### Directories and Files Analysis
 
