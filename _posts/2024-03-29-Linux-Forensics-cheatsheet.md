@@ -643,7 +643,19 @@ dcfldd if=/dev/sdb of=/media/sf_tmp/linux_forensic.img hash=sha256 hashwindow=1M
 ```
 
 ## Memory acquisition
-Memory acquisition and memory analysis is quite bit rare in Linux forensics as most of the analyst rely on live response actions and commands. To perform memory acquisition, we going to use LIME.
+Memory acquisition and memory analysis is quite bit rare in Linux forensics as most of the analyst rely on live response actions and commands. To perform memory acquisition, we going to use AVML or LIME.
+
+### AVML
+```
+# Go to https://github.com/microsoft/avml/releases
+# Download avml binary
+wget https://github.com/microsoft/avml/releases/download/v0.13.0/avml
+
+# Execute avml
+./avml memory.lime
+```
+
+### LIME
 ```
 # In the target machine, run this command to verify the kernel version
 uname -r
@@ -671,13 +683,82 @@ sudo git clone https://github.com/volatilityfoundation/volatility3.git
 cd volatility3/
 apt install python3-pip
 pip3 install -r requirements-minimal.txt
-python3 vol.py -f /media/sf_tmp/mem.lime banners
 ```
 
-Then we need to build Linux volatility profile in order to use Volatility for memory forensic.
+Then we need to build Linux volatility profile in order to use Volatility for memory forensic. First, determine the kernel version to assist building table. Choose one. If you're not confident, run `uname -r` in compromised box.
 ```
-TODO
+remnux@remnux:/mnt/hgfs/tmp$ vol3 -f memory.lime banners
+Volatility 3 Framework 1.0.1
+Progress:  100.00		PDB scanning finished                  
+Offset	Banner
+
+0x58633668	Linux version 5.15.0-100-generic (buildd@lcy02-amd64-116) (gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #110-Ubuntu SMP Wed Feb 7 13:27:48 UTC 2024 (Ubuntu 5.15.0-100.110-generic 5.15.143)
+0x699ae668	Linux version 5.15.0-101-generic (buildd@lcy02-amd64-032) (gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #111-Ubuntu SMP Tue Mar 5 20:16:58 UTC 2024 (Ubuntu 5.15.0-101.111-generic 5.15.143)
+0x6e600200	Linux version 5.15.0-101-generic (buildd@lcy02-amd64-032) (gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #111-Ubuntu SMP Tue Mar 5 20:16:58 UTC 2024 (Ubuntu 5.15.0-101.111-generic 5.15.143)
+0x70635778	Linux version 5.15.0-101-generic (buildd@lcy02-amd64-032) (gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #111-Ubuntu SMP Tue Mar 5 20:16:58 UTC 2024 (Ubuntu 5.15.0-101.111-generic 5.15.143)3)
 ```
+
+Then we proceed to download our debug symbol and convert it to json file
+```
+# First search your debug symbol on the Google based on command banner result, for example, ubuntu: http://ddebs.ubuntu.com/ubuntu/pool/main/l/linux/
+wget http://ddebs.ubuntu.com/ubuntu/pool/main/l/linux/linux-image-unsigned-5.15.0-101-generic-dbgsym_5.15.0-101.111_amd64.ddeb
+
+# Git clone, compile dwarf2json
+git clone https://github.com/volatilityfoundation/dwarf2json.git
+cd dwarf2json
+go build
+
+# Install the ddeb file. Once it done, a dbgsymbol file will write in /usr/lib/debug/boot/
+dpkg -i http://ddebs.ubuntu.com/ubuntu/pool/main/l/linux/linux-image-unsigned-5.15.0-101-generic-dbgsym_5.15.0-101.111_amd64.ddeb
+
+# Execute dwarf2json on the dbgsmbl file
+./dwarf2json linux --elf /usr/lib/debug/boot/vmlinux-5.15.0-101-generic > symbol.json
+
+# Copy into volatility path
+cp symbol.json /path/to/volatility3/symbols/linux/
+
+# Verify the setup
+python3 vol.py isfinfo
+```
+
+Run the analysis
+```
+# Help
+root@remnux:~# vol3 -h | grep linux
+    banners.Banners     Attempts to identify potential linux banners in an
+    linux.bash.Bash     Recovers bash command history from memory.
+    linux.check_afinfo.Check_afinfo
+    linux.check_creds.Check_creds
+    linux.check_idt.Check_idt
+    linux.check_modules.Check_modules
+    linux.check_syscall.Check_syscall
+    linux.elfs.Elfs     Lists all memory mapped ELF files for all processes.
+    linux.keyboard_notifiers.Keyboard_notifiers
+    linux.lsmod.Lsmod   Lists loaded kernel modules.
+    linux.lsof.Lsof     Lists all memory maps for all processes.
+    linux.malfind.Malfind
+    linux.proc.Maps     Lists all memory maps for all processes.
+    linux.pslist.PsList
+                        Lists the processes present in a particular linux
+    linux.pstree.PsTree
+    linux.tty_check.tty_check
+
+# Example
+oot@remnux:~# vol3 -f /mnt/hgfs/tmp/memory.lime linux.bash
+Volatility 3 Framework 1.0.1
+Progress:  100.00		Stacking attempts finished                 
+PID	Process	CommandTime	Command
+
+14100	bash	2024-04-01 03:05:59.000000 	sudo systemctl restart apache2
+14100	bash	2024-04-01 03:05:59.000000 	sudo apt update
+14100	bash	2024-04-01 03:05:59.000000 	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+14100	bash	2024-04-01 03:05:59.000000 	ll
+14100	bash	2024-04-01 03:05:59.000000 	insmod
+14100	bash	2024-04-01 03:05:59.000000 	cd LiME/
+14100	bash	2024-04-01 03:05:59.000000 	sudo apt install dwarfdump
+```
+
+
 
 ## Disk analysis
 Analyst can perform disk analyst using:
