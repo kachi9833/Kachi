@@ -319,6 +319,9 @@ ls /usr/sbin /usr/bin /bin /sbin
 # List files in the APT package cache directory for investigating downloaded packages
 ls /var/cache/apt/archives
 
+# Find based on date
+find / -type f \( -newermt "2020-12-01" -and ! -newermt "2020-12-02" \)
+
 ```
 
 ### File investigation
@@ -774,10 +777,10 @@ Analyst can perform disk analysis using several tools such as:
 2. Sleauthkit commands
 3. FTK Imager
 4. elf-tools commands
-5. Linux distro such as Tsurugi, SIFT or REMNUX (Need to mount the disk image first)
+5. Linux distro such as Tsurugi, SIFT or REMNUX (Need to mount the disk image first). Live responde commands such as `find`, `cat`, `last -f` might helpful.
 
 ```
-Note: If Autopsy or Sleauth-kit can open the disk partition, convert the image file into E01 using FTK Imager ("Export Disk Image")
+Note: If Autopsy or Sleauth-kit cannot open the disk partition, do convert the raw image file into E01 using FTK Imager ("Export Disk Image")
 ```
 
 ### Directories and Files Analysis
@@ -852,28 +855,136 @@ Examining access.log content:
 We can use external tool such as `goaccess` to briefly analyze access.log.
 
 ### Privilege escalation hunting ideas
+Execution of below commands/scripts in `~/*.history`:
 ```
-TODO
+# Find all files suid and sgid files
+find / -perm -u=s -type f 2>/dev/null
+find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
+
+# list commands allowed using sudo
+sudo -l
+
+# GTFOBins: https://gtfobins.github.io/#
+
+# Activity of compilation
+gcc name.c -o exploit.out
+./exploit.out
 ```
+
+Existence and execution of Linux Priviledge Escalation script such as:
+1. LinPEAS
+2. LinEnum
+3. Linux Smart Enumeration
+4. Linux exploit suggester
+
+Kernel exploits:
+1. Dirtycow
+2. Dirtypipe
+3. Dirtycred
+4. GameOver(lay) Ubuntu Privilege Escalation
+5. Many more...
+
+Modification of these files:
+```
+/etc/init.d
+/etc/cron.d 
+/etc/cron.daily
+/etc/cron.hourly
+/etc/cron.monthly
+/etc/cron.weekly
+/etc/sudoers
+/etc/exports
+/etc/passwd
+/etc/shadow
+/etc/at.allow
+/etc/at.deny
+/etc/crontab
+/etc/cron.allow
+/etc/cron.deny
+/etc/anacrontab
+/var/spool/cron/crontabs/root
+/usr/lib
+/lib
+/etc/ld.so.conf
+# Any scripts running as root
+```
+
+Another aspects:
+1. Weak/reused/plaintext passwords
+2. Vulnerable installed software/binary
+
+Get ideas from https://book.hacktricks.xyz/linux-hardening/privilege-escalation
 
 ### File recovery
-Using sleauth kit
+#### debugfs for targeted file
+Using debugfs for ext3/4 file system
+
+Knowing the inode data:
+```
+debugfs -w /dev/sda2
+
+# get block of data
+logdump -i <inode number>
+
+# Take note the `Blocks: (0-1)`'s value
+dd if=/dev/sda2 of=data.txt bs=4096 count=1 skip=THE_VALUE
+```
+
+Not knowing the inode number:
+```
+debugfs -w /dev/sda2
+lsdel
+logdump -i <inode number>
+
+# Take note the `Blocks: (0-1)`'s value
+dd if=/dev/sda2 of=data.txt bs=4096 count=1 skip=THE_VALUE
+```
+
+#### Sleauth kit
+Using tsk_recover by SK
 ```
 tsk_recover -h
-tsk_recover -i raw -e image.dd <location>
+tsk_recover -i raw -e image.dd /temp
 ```
 
-Using debugfs
-```
-TODO
-```
-
+#### ext4magic
 Using ext4magic
 ```
-TODO
+sudo apt-get install ext4magic
+
+# List deleted files from 6 hours ago
+ext4magic /dev/sda2 -a $(date -d "-6hours" +%s) -f user/folder -l
+
+# Recover file
+ext4magic /dev/sda2 -a $(date -d "-6hours" +%s) -f user/folder -r -d ./recovered
+
+# Recover all files
+ext4magic /dev/sda2 -a $(date -d "-6hours" +%s) -f user/folder -m -d ./recovered
 ```
 
-### Timeline analysis
+#### Photorec
 ```
-TODO
+apt-get install testdisk
+photorec
+```
+
+### Generate Timeline analysis
+```
+# Quitest timeline generator using psteal without parser, filter, sort
+psteal.py --source disk_image.dd -o l2tcsv -w timeline.csv
+
+# Simple generator
+log2timeline.py out.plaso disk_image.dd
+
+# List parsers
+log2timeline.py --parsers list | more
+
+# Use parsers
+log2timeline.py -z UTC --parsers linux,apache_access,apt_history out2.plaso disk_image.dd
+
+# Generate timeline with parser
+log2timeline.py -z UTC -t / --parsers linux,apache_access,apt_history out.timeline ./
+
+# Filter the timeline to only include specific date range
+psort.py -z utc -o l2tcsv -w box.csv out.timeline "date > '2020-12-11 00:00:00' AND date < '2020-12-13 00:00:00'"
 ```
