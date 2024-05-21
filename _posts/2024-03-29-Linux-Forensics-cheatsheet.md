@@ -862,9 +862,8 @@ Tool such as SIEM, or CA scanner could speed up analysis of the log analysis.
 | /var/log/mail*            | Analyze mail server logs for email activity              |
 | /var/log/xferlog          | Investigate FTP server logs for file transfer activity   |
 
-Some tools for consideration:
+A tool for consideration:
 1. https://github.com/securityjoes/MasterParser
-2. 
 
 #### Access.log
 Examining access.log content:
