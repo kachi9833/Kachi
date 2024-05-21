@@ -862,6 +862,10 @@ Tool such as SIEM, or CA scanner could speed up analysis of the log analysis.
 | /var/log/mail*            | Analyze mail server logs for email activity              |
 | /var/log/xferlog          | Investigate FTP server logs for file transfer activity   |
 
+Some tools for consideration:
+1. https://github.com/securityjoes/MasterParser
+2. 
+
 #### Access.log
 Examining access.log content:
 ```
@@ -1013,7 +1017,7 @@ log2timeline.py -z UTC -t / --parsers linux,apache_access,apt_history out.timeli
 psort.py -z utc -o l2tcsv -w box.csv out.timeline "date > '2020-12-11 00:00:00' AND date < '2020-12-13 00:00:00'"
 ```
 
-### More detection visibility?
+### Want more detection visibility?
 Install this:
 1. https://github.com/cilium/tetragon
 2. https://github.com/Sysinternals/SysmonForLinux
@@ -1021,4 +1025,4 @@ Install this:
 4. https://github.com/falcosecurity/falco
 5. https://github.com/aquasecurity/tracee
 6. https://github.com/osquery/osquery and https://github.com/chainguard-dev/osquery-defense-kit
-7. 
+7. Setup and install Elastic security
