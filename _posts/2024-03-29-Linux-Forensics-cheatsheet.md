@@ -103,6 +103,11 @@ user@training:~$ sudo ./fennec_linux_x86_64 -o training.zip --output-format csv
 
 Please refer https://github.com/AbdulRhmanAlfaifi/Fennec for more information.
 
+### Other tools in the list
+1. https://github.com/cado-security/varc
+2. https://github.com/Velocidex/velociraptor
+3. https://github.com/google/grr
+
 ## Live response commands
 These commands can be used to review anomalous behavior and verify compromise in real-time action. Some of the commands, such as `cat /var/www/html/webshell.php`, can also be used to perform post-compromise disk analysis, where we only need to supply the full path of the mounted compromised disk, for example, `cat /media/compromised_disk/var/www/html/webshell.php`.
 
@@ -571,11 +576,30 @@ chkrootkit
 # Detect rootkits on Linux systems
 rkhunter --check
 
-# Comprehensive security auditing tool that includes checks for rootkits among other security issues:
+# Comprehensive security auditing tool that includes checks for rootkits among other security issues
 lynis audit system
 
 # Antivirus scanner for malware
 clamscan -r /
+
+# Sunlight
+git clone https://github.com/tstromberg/sunlight
+cd sunlight
+sudo ./sunlight.sh
+
+# Sandfly
+git clone https://github.com/sandflysecurity/sandfly-file-decloak
+cd sandfly-file-decloak
+python3 ./sandfly-file-decloak.py -f /etc/modules
+
+git clone
+https://github.com/sandflysecurity/sandfly-processdecloak
+cd sandfly-processdecloak
+sudo ./sandfly-processdecloak
+
+# https://github.com/YJesus/Unhide
+./unhide-tcp
+./unhide-linux
 ```
 
 ### Hunting and check files, processes
@@ -988,3 +1012,13 @@ log2timeline.py -z UTC -t / --parsers linux,apache_access,apt_history out.timeli
 # Filter the timeline to only include specific date range
 psort.py -z utc -o l2tcsv -w box.csv out.timeline "date > '2020-12-11 00:00:00' AND date < '2020-12-13 00:00:00'"
 ```
+
+### More detection visibility?
+Install this:
+1. https://github.com/cilium/tetragon
+2. https://github.com/Sysinternals/SysmonForLinux
+3. https://github.com/kunai-project/kunai
+4. https://github.com/falcosecurity/falco
+5. https://github.com/aquasecurity/tracee
+6. https://github.com/osquery/osquery and https://github.com/chainguard-dev/osquery-defense-kit
+7. 
