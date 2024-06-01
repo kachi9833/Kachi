@@ -8,7 +8,7 @@ Malware commonly uses hashing algorithms for various purposes, such as creating 
 
 In this blog, we will examine a few hashing algorithms from the perspectives of code development and reverse engineering compiled code. The purpose of this blog is to understand and identify hashing algorithms in terms of malware reverse engineering. Thus, this post might be useful for beginner analysts who are new to the reverse engineering malware scene.
 
-# Using Win API
+# Utilizing WinAPI for hashing algorithm
 
 To start our learning journey, developers can perform hashing in code using either Windows API or non-API methods.
 
@@ -74,7 +74,7 @@ BYTE hash[4];
 
 Make sure to use the correct `ALG_ID` and adjust the byte array size based on the chosen algorithm.
 
-# Non-API method
+# Non-API method for hashing algorithm
 ## MD5
 
 Let's take a look on how MD5 implementation in the code without using WinCrypt APIs. Suggest that you're using Google to see how's the code is and here we got one that are works in my VS compiler.
