@@ -1,5 +1,5 @@
 ---
-title: "Determine and understand Hashing Algorithms for Malware Analysis"
+title: "Determine and understand hashing algorithms for Malware Analysis"
 tags: 
 - Malware
 ---
@@ -402,7 +402,7 @@ And... if we have a look in the decompiled code in IDA, the code fairly looks si
 
 And before it prints the hash value, the code does the CRC Calculation for "Hello, World!" strings.
 
-# Detect hashing algorithm
+# Detecting hashing algorithm
 
 As a result of our analysis, we aim to identify the hashing algorithms used when performing reverse engineering on samples that utilize hashing algorithms.
 
