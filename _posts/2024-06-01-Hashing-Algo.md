@@ -23,7 +23,7 @@ Note that sizes for some common hashing algorithms as below:
 So we need to ensure we have the correct size for our hash array.
 
 Let's do some coding to encrypt string using WinAPI with MD5 hash.
-```
+```C
 #include <windows.h>
 #include <wincrypt.h>
 #include <stdio.h>
