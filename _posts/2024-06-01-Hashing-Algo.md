@@ -23,7 +23,7 @@ Note that sizes for some common hashing algorithms as below:
 So we need to ensure we have the correct size for our hash array.
 
 Let's do some coding to encrypt string using WinAPI with MD5 hash.
-```C
+```
 #include <windows.h>
 #include <wincrypt.h>
 #include <stdio.h>
@@ -63,9 +63,15 @@ Now, let's take a look at how the code appears in IDA Pro.
 
 ![image](https://github.com/fareedfauzi/fareedfauzi.github.io/assets/56353946/92afc863-a63a-462b-a94f-21145935b687)
 
-From the above code, it's easy to determine what's going on since the Windows API provides clear clues. However, in some cases, we need to adjust the symbolic constants for certain values, such as `CRYPT_VERIFYCONTEXT` and `CALG_MD5` context in the above figure.
+From the above code, it's easy to determine what's going on since the Windows API provides clear clues. However, in some cases, we need to adjust the symbolic constants for certain values, such as `CRYPT_VERIFYCONTEXT` for `CryptAcquireContext` function and `CALG_MD5` for `CryptCreateHash` context in the above figure.
 
-To switch to a different hashing algorithm, you only need to change the CryptCreateHash line and adjust the size of the hash's byte array accordingly. For example, you can modify the following line by replacing `CALG_MD5` with your desired `ALG_ID` such as `CALG_CRC32`.
+For example, here's the [Microsoft documentation](https://learn.microsoft.com/en-us/windows/win32/seccrypto/alg-id) describe the values for the `ALG_ID`.
+
+In the figure below, `0x00008003` represent `CALG_MD5` identifier.
+
+![image](https://github.com/fareedfauzi/fareedfauzi.github.io/assets/56353946/81974f78-f9fd-4fc5-937c-8d95bce6b43e)
+
+To switch to a different hashing algorithm, you only need to change the `CryptCreateHash` line and adjust the size of the hash's byte array accordingly. For example, you can modify the following line by replacing `CALG_MD5` with your desired `ALG_ID` such as `CALG_CRC32`.
 
 ```
 CryptCreateHash(hProv, CALG_CRC32, 0, 0, &hHash);
