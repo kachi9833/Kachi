@@ -31,3 +31,5 @@ Hi, good day everyone. Just another so called "security guy" hosting cyber secur
 His interested mainly in reverse code engineering and analysis, malware research, CTF, digital forensics, threat intelligence and works on them for fun, research, and work.
 
 The aim of this personal blog is for research, education and note purpose focusly on malware analysis and reverse code engineering. Anything posted in his blog is his own stuff and is not affiliated with any company that he's working for.
+
+I'll do my best to post once a month to keep this blog active. ( ◡̀_◡́)ᕤ
