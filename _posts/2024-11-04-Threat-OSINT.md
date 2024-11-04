@@ -6,7 +6,7 @@ tags:
 - Malware
 ---
 
-Hi hi! So, this is another cheat sheet for security analysts and researchers which often rely on OSINT (Open Source Intelligence) tools to investigate malware samples and gather actionable insights about potential threats. These tools provide information on malware samples, network communications, domain and IP reputation, as well as any related indicators of compromise (IOCs). This guide will help you identify the more information for a variety of threat intelligence needs.
+Hi hi! So, this is another cheat sheet for security analysts and researchers which often rely on OSINT (Open Source Intelligence) tools to investigate malware samples and gather actionable insights about potential threats. These tools provide information on malware samples, network communications, domain and IP reputation, as well as any related indicators of compromise (IOCs). This guide will help you to get more information for your threat intelligence needs.
 
 # Malware Sample
 
