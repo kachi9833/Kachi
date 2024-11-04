@@ -15,7 +15,7 @@ tags:
 | [Any.Run](https://app.any.run/submissions)                                         | 🟢        | 🟢     | 🟢        | 🟢        | 🟢         | 🔴         | 🟢       | 🟢       | 🟢      | 🟢         | 🟢    | 🟢       | 🟢       | 🟢      | 🔴   | 🔴   | 🟢    | 🟢       | 🟢    | 🔴      | 🔴       |
 | [HybridAnalysis](https://www.hybrid-analysis.com/)                                 | 🟢        | 🟢     | 🟢        | 🟢        | 🟢         | 🔴         | 🟡       | 🟢       | 🟢      | 🟢         | 🟢    | 🔴       | 🟢       | 🟢      | 🟢   | 🔴   | 🟢    | 🟢       | 🟢    | 🟢      | 🔴       |
 | [Joe Sandbox](https://www.joesandbox.com/)                                         | 🟢        | 🟢     | 🟢        | 🟢        | 🟢         | 🔴         | 🔴       | 🟢       | 🟢      | 🟢         | 🟢    | 🟢       | 🟢       | 🟢      | 🔴   | 🔴   | 🟢    | 🟢       | 🟢    | 🟢      | 🔴       |
-| [OpenTIP](https://opentip.kaspersky.com/)                                          | 🔴        | 🟢     | 🟢        | 🔴        | 🟢         | 🔴         | 🔴       | 🟢       | 🟢      | 🟢         | 🔴    | 🔴       | 🟢       | 🟢      | 🔴   | 🔴   | 🟢    | 🟢       | 🟢    | 🔴      | 🔴       |
+| [OpenTIP](https://opentip.kaspersky.com/)                                          | 🟢        | 🟢     | 🟢        | 🟡        | 🟢         | 🔴         | 🔴       | 🟡       | 🟢      | 🟡         | 🔴    | 🔴       | 🟢       | 🟢      | 🔴   | 🔴   | 🟢    | 🟢       | 🟢    | 🔴      | 🔴       |
 | [Filescan](https://www.filescan.io/)                                               | 🟢        | 🟢     | 🟢        | 🟢        | 🟢         | 🔴         | 🔴       | 🟢       | 🟢      | 🔴         | 🔴    | 🔴       | 🟢       | 🟢      | 🔴   | 🔴   | 🔴    | 🔴       | 🟢    | 🟢      | 🔴       |
 | [Jotti](https://virusscan.jotti.org/en-US/search/hash)                             | 🟢        | 🟢     | 🟢        | 🟢        | 🟢         | 🔴         | 🔴       | 🔴       | 🔴      | 🔴         | 🔴    | 🔴       | 🔴       | 🔴      | 🔴   | 🔴   | 🔴    | 🔴       | 🔴    | 🟢      | 🔴       |
 | [AlienVault](https://otx.alienvault.com/)                                          | 🟢        | 🔴     | 🟢        | 🔴        | 🔴         | 🔴         | 🔴       | 🔴       | 🔴      | 🔴         | 🔴    | 🟢       | 🔴       | 🔴      | 🔴   | 🔴   | 🔴    | 🔴       | 🔴    | 🟢      | 🔴       |
@@ -37,7 +37,7 @@ tags:
 |------------------------------------------------------------------------------------|-------|-----|-----|------|-------|------------|
 | [VirusTotal](https://www.virustotal.com/gui/home/search)                           | 🟢    | 🟢  | 🟢  | 🟢   | 🟢    | 🟢         |
 | [Threatbook](https://s.threatbook.com/)                                            | 🟢    | 🟢  | 🟢  | 🟢   | 🔴    | 🔴         |
-| [OpenTIP](https://opentip.kaspersky.com/)                                          | 🔴    | 🟢  | 🟢  | 🟢   | 🔴    | 🔴         |
+| [OpenTIP](https://opentip.kaspersky.com/)                                          | 🟢    | 🟢  | 🟢  | 🟢   | 🔴    | 🔴         |
 | [Tri.age](https://tria.ge/)                                                        | 🔴    | 🔴  | 🔴  | 🟢   | 🔴    | 🔴         |
 | [Any.Run](https://app.any.run/submissions)                                         | 🔴    | 🟢  | 🟢  | 🟢   | 🔴    | 🔴         |
 | [HybridAnalysis](https://www.hybrid-analysis.com/)                                 | 🔴    | 🟢  | 🟢  | 🟢   | 🔴    | 🔴         |
