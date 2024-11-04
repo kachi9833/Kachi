@@ -6,6 +6,8 @@ tags:
 - Malware
 ---
 
+Hi hi! So, this is another cheat sheet for security analysts and researchers which often rely on OSINT (Open Source Intelligence) tools to investigate malware samples and gather actionable insights about potential threats. These tools provide information on malware samples, network communications, domain and IP reputation, as well as any related indicators of compromise (IOCs). This guide will help you identify the more information for a variety of threat intelligence needs.
+
 # Malware Sample
 
 | Tool                                                                              | File Hash | Upload | Detection | File Path | File Names | Similarity | Download | Cmd Line | Details | String/Int | Bytes | Relation | Behavior | Network | YARA | New | PCAP | Mem Dump | S'box | MultiAV | Src Code |
