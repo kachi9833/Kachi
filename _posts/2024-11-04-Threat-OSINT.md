@@ -2,6 +2,7 @@
 title: "Threat Investigation using OSINT Online Tools"
 tags: 
 - OSINT
+- Cheatsheet
 - Malware
 ---
 
