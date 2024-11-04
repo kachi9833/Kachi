@@ -8,6 +8,16 @@ tags:
 
 Hi hi! So, this is another cheat sheet for security analysts and researchers which often rely on OSINT (Open Source Intelligence) tools to investigate malware samples and gather actionable insights about potential threats. These tools provide information on malware samples, network communications, domain and IP reputation, as well as any related indicators of compromise (IOCs). This guide will help you to get more information for your threat intelligence needs.
 
+Color Guide:
+| Color | Description                                 |
+|------|---------------------------------------------|
+| 🟢   | Yes, it can do that! OR Yes, it has the feature! |
+| 🔴   | No, it cannot do that! OR No, it doesn't have the feature! |
+| 🟡   | Depends on user/subscription level             |
+
+
+_Note: The list and guidance might contain errors due to my mistakes or oversights. Please double-check everything yourself and feel free to provide feedback! :D_
+
 # Malware Sample
 
 | Tool                                                                              | File Hash | Upload | Detection | File Path | File Names | Similarity | Download | Cmd Line | Details | String/Int | Bytes | Relation | Behavior | Network | YARA | New | PCAP | Mem Dump | S'box | MultiAV | Src Code |
